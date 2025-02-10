@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { login } from './service-auth';
+import Button from '../../components/shared/Button';
 
 interface Props {
   onLogin: (message: string) => void;
@@ -58,11 +59,11 @@ function LoginPage({ onLogin }: Props) {
             onChange={handlePasswordChange}
           />
         </label>
-        <button 
+        <Button 
           type="submit"
           disabled= { isDisabled }>
             Log in
-          </button>
+          </Button>
       </form>
       
     </div>

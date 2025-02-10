@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getAdvertList } from './service-adverts';
 import { Advert } from './types';
 import { logout } from '../auth/service-auth';
+import Button from '../../components/shared/Button';
 
 //Listado de anuncios
 
@@ -39,7 +40,7 @@ Llamada a la api, esperar respuesta, recoger datos y modificar estado del compon
         ))}
       </ul>
 
-      <button onClick= {handleLogoutClick}>Logout</button>
+      <Button onClick= {handleLogoutClick}>Logout</Button>
 
     </div>
   );
