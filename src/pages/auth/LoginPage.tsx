@@ -1,21 +1,40 @@
+import { useState } from 'react';
 import { login } from './service-auth';
 
-function LoginPage() {
+interface Props {
+  onLogin: (message: string) => void;
+}
+
+function LoginPage({ onLogin }: Props) {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try{
         const response = await login({
-        email: event.target.email.value,
-        password: event.target.password.value,
+        email,
+        password
         });
         console.log(response);
+        onLogin("Hello");
 
     } catch (error) {
         console.error(error);
     }
-    
   };
+
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
+  const isDisabled = !email || !password;
 
   return (
     <div>
@@ -23,13 +42,27 @@ function LoginPage() {
       <form onSubmit={handleSubmit}>
         <label>
           Email:
-          <input type="text" name="email" />
+          <input 
+            type="text" 
+            name="email"
+            value = { email }
+            onChange= {handleEmailChange}
+          />
         </label>
         <label>
           Password:
-          <input type="password" name="password" />
+          <input 
+            type="password" 
+            name="password" 
+            value={password}
+            onChange={handlePasswordChange}
+          />
         </label>
-        <button type="submit">Log in</button>
+        <button 
+          type="submit"
+          disabled= { isDisabled }>
+            Log in
+          </button>
       </form>
       
     </div>
