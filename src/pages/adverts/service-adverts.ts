@@ -9,6 +9,7 @@ Servicio de comunicación con la API: funciones que interactuan con los endpoint
 const advertsUrl = '/api/v1/adverts';
 
 //GET: Listado de anuncios
+//Devuelve los datos (response.data), que luego son utilizados en el componente AdvertsPage para renderizar la lista de anuncios.
 export const getAdvertList = async () => {
   const response = await client.get<Advert[]>(advertsUrl);
   return response.data;

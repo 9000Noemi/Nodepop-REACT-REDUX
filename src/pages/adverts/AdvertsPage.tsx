@@ -5,22 +5,22 @@ import { Advert } from './types';
 //Listado de anuncios
 
 function AdvertsPage() {
-  /*
-    Hacer la llamada a la api, esperar la respuesta, recoger esos
-    datos y modificar el estado del componente para que se repinte
-    */
+/*
+Llamada a la api, esperar respuesta, recoger datos y modificar estado del componente para que se repinte
+*/
 
-  /*Crear un estado donde meteremos los anuncios
-    Inicializamos useState con un array vacio porque su respuesta es un array*/
+  //Estado donde meter los anuncios: iniciar useState con un array vacio porque su respuesta es un array
   const [adverts, setAdverts] = useState<Advert[]>([]);
 
+
+  //Cuando el componente AdvertsPage se monta, ejecuta el useEffect  
   useEffect(() => {
-    //llamada a la funcion getAdvertList() creada en service
     getAdvertList().then((response) => {
       setAdverts(response);
     });
   }, []);
 
+  //Renderizado del componente
   return (
     <div>
       <h1>Adverts Page</h1>

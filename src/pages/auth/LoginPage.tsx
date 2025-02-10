@@ -4,11 +4,17 @@ function LoginPage() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const response = login({
-      email: event.target.email.value,
-      password: event.target.password.value,
-    });
-    console.log(response);
+    try{
+        const response = await login({
+        email: event.target.email.value,
+        password: event.target.password.value,
+        });
+        console.log(response);
+
+    } catch (error) {
+        console.error(error);
+    }
+    
   };
 
   return (
@@ -23,8 +29,9 @@ function LoginPage() {
           Password:
           <input type="password" name="password" />
         </label>
+        <button type="submit">Log in</button>
       </form>
-      <button type="submit">Log in</button>
+      
     </div>
   );
 }
