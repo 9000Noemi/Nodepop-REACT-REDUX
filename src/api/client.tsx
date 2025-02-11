@@ -1,6 +1,7 @@
 //Inicializamos el cliente Axios
 
 import axios from 'axios';
+import { ApiClientError } from './error';
 
 export const client = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -16,3 +17,8 @@ export const setAuthorizationHeader = (accessToken: string) => {
 export const removeAuthorizationHeader = () => {
   delete client.defaults.headers["Authorization"];
 };
+
+
+export function isApiClientError(error: unknown): error is ApiClientError {
+  return error instanceof ApiClientError;
+}
