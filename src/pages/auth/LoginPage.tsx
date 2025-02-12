@@ -3,7 +3,8 @@ import { login } from './service-auth';
 import Button from '../../components/shared/Button';
 import FormField from '../../components/shared/FormField';
 import { useAuth } from './context';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -22,8 +23,12 @@ function LoginPage() {
       });
       console.log(response);
       onLogin();
+
+      //Una vez logado el usuario, le enviamos al link al que habia intentado entrar (con location)
       const to = location.state?.from ?? '/';
+      //navigate('/) SI QUEREMOS QUE LE REDIRIJA SOLO A LOGIN- TMB CAMBIAR EN REQUIREAUTH SI LO QUIERO ASI
       navigate(to, { replace: true });
+
     } catch (error) {
       console.error(error);
     }
@@ -57,13 +62,15 @@ function LoginPage() {
           value={password}
           onChange={handlePasswordChange}
         />
-        <Button
-          type="submit"
-          disabled={isDisabled}
-          className="loginForm-submit"
-        >
-          Log in
-        </Button>
+        <Link to = {"/"}>  {/*REVISAR SI ESTO ESTA BIEN*/}
+          <Button
+            type="submit"
+            disabled={isDisabled}
+            className="loginForm-submit"
+          >
+            Log in
+          </Button>
+        </Link>
       </form>
     </div>
   );

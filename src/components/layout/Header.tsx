@@ -15,20 +15,23 @@ export default function Header({ onLogout }: Props) {
   return (
     <header className="header">
       <nav className="header-nav">
-        <Button onClick={handleLogoutClick}>Logout</Button>
+
+        <Link to={'/login'}>
+          <Button onClick={handleLogoutClick}>Logout</Button>
+        </Link>
+
+        {/*Usamos Navlink para que se quede marcado el titulo donde estamos*/}
         <NavLink
           to="/adverts/new"
-          className={({ isActive }) => (isActive ? 'selected' : '')}
-        >
+          className={({ isActive }) => (isActive ? 'selected' : '')}>
           New Advert
         </NavLink>
+
         <NavLink
           to="/adverts"
           className={({ isActive }) => (isActive ? 'selected' : '')}
-          // style={({ isActive }) => (isActive ? { color: "red" } : {})}
-          end
-        >
-          Latest Tweet
+          end>
+          Adverts List
         </NavLink>
       </nav>
     </header>

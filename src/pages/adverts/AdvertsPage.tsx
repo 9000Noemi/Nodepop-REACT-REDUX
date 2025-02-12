@@ -3,13 +3,17 @@ import { getAdvertList } from './service-adverts';
 import type { Advert } from './types';
 import Button from '../../components/shared/Button';
 import AdvertItem from './Advert';
+import { Link } from 'react-router-dom';
 
 //Listado de anuncios
 
 const EmptyList = () => (
   <div className="advertsPage-empty">
     <p>No adverts at the moment</p>
-    <Button>Create advert</Button>
+
+    <Link to = {'/advert/new'}>
+      <Button>Create advert</Button>
+    </Link>
   </div>
 );
 
@@ -36,7 +40,9 @@ Llamada a la api, esperar respuesta, recoger datos y modificar estado del compon
         <ul>
           {adverts.map((advert) => (
             <li key={advert.id}>
-              <AdvertItem advert={advert} />
+              <Link to = {`/adverts/${advert.id}`}>
+                <AdvertItem advert={advert} />
+              </Link>
             </li>
           ))}
         </ul>

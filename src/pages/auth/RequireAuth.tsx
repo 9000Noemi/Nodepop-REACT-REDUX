@@ -7,12 +7,12 @@ import { Navigate, useLocation } from 'react-router-dom';
 function RequireAuth({ children }: { children: ReactNode }) {
   const { isLogged } = useAuth();
   const location = useLocation();
-  console.log('aquiii', children);
 
   return isLogged ? (
     children
   ) : (
-    //Si el usuario no está autenticado, lo redirige a la página de login
+    //Si el usuario no está autenticado, lo redirige a la página de login o en la que intento entrar (con location)
+    //Replace para que cuando pulse atrás <-- no vuelva a login.
     <Navigate to="/login" state={{ from: location.pathname }} replace />
   );
 }

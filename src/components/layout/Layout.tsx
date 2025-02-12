@@ -7,9 +7,10 @@ import './Layout.css';
 
 interface Props {
   children: ReactNode;
+  title?: string;
 }
 
-export default function Layout({ children }: Props) {
+export default function Layout({ children, title }: Props) {  //REVISAR TITLE, LO PONGO POR ADVERTPAGE
   return (
     <div className="layout">
       <Header

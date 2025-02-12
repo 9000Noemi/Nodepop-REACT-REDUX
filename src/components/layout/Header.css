@@ -1,43 +1,30 @@
 .header {
-  position: sticky;
-  top: 0;
-  height: 64px;
+  background-color: #fff9db; /* Amarillo muy claro */
+  padding: 10px 20px;
+  border-bottom: 1px solid #f1e5b3;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 0 15px;
-  border-style: solid;
-  border-color: rgb(var(--color-border));
-  border-bottom-width: 1px;
 }
-.header-logo {
-  height: 48px;
-  width: 48px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  background-color: transparent;
-  color: rgb(var(--color-twitter));
-  transition: background-color 0.2s;
-}
-.header-logo:hover {
-  background-color: rgba(var(--color-twitter), 0.1);
-}
+
 .header-nav {
   display: flex;
-  justify-content: flex-end;
-  flex: 1;
-  gap: 10px;
-  align-items: center;
+  gap: 15px;
 }
-.header-nav .header-nav-item {
-  align-self: center;
-  margin-left: 8px;
+
+.header-nav a {
+  text-decoration: none;
+  color: #6d4e00; /* Marrón suave para contraste */
+  font-weight: 500;
+  transition: color 0.3s ease;
 }
+
+.header-nav a:hover {
+  color: #d4a017; /* Amarillo dorado al pasar el ratón */
+}
+
 .header-nav .selected {
-  color: rgb(var(--color-twitter));
-}
-.header-button {
-  width: 144px;
-  margin-left: 10px;
+  color: #d4a017;
+  font-weight: bold;
+  border-bottom: 2px solid #d4a017;
 }
