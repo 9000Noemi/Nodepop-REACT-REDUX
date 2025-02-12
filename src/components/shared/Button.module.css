@@ -1,44 +1,45 @@
 .button {
-    cursor: pointer;
-    border-radius: 9999px;
-    border: 2px solid #30d5c8;
-    font-weight: bold;
-    min-height: 40px;
-    min-width: 100px;
-    padding: 10px 20px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    transition: background-color 0.2s, transform 0.1s;
-    outline: none;
-  }
-  
-  /* Estilo para el botón primario */
-  .primary {
-    background-color: #30d5c8;
-    color: white;
-  }
-  
-  .primary:hover {
-    background-color: #25b3a7;
-    transform: scale(1.05);
-  }
-  
-  /* Estilo para el botón secundario */
-  .secondary {
-    background-color: white;
-    color: #30d5c8;
-  }
-  
-  .secondary:hover {
-    background-color: rgba(48, 213, 200, 0.2);
-    transform: scale(1.05);
-  }
-  
-  /* Deshabilitado */
-  .disabled {
-    opacity: 0.5;
-    pointer-events: none;
-  }
-  
+  cursor: pointer;
+  border-radius: 9999px;
+  border: 2px solid #30d5c8;
+  font-weight: bold;
+  min-height: 40px;
+  min-width: 100px;
+  padding: 10px 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition:
+    background-color 0.2s,
+    transform 0.1s;
+  outline: none;
+}
+
+/* Estilo para el botón primario */
+.primary {
+  background-color: #30d5c8;
+  color: white;
+}
+
+.primary:hover {
+  background-color: #25b3a7;
+  transform: scale(1.05);
+}
+
+/* Estilo para el botón secundario */
+.secondary {
+  background-color: white;
+  color: #30d5c8;
+}
+
+.secondary:hover {
+  background-color: rgba(48, 213, 200, 0.2);
+  transform: scale(1.05);
+}
+
+/* Deshabilitado */
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}

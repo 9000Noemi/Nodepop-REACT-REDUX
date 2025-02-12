@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
-import "./Layout.css";
+import type { ReactNode } from 'react';
+import './Layout.css';
 
 interface Props {
   title: string;

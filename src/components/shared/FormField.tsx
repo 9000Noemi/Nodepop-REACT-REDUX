@@ -1,7 +1,7 @@
-import type { ComponentProps } from "react";
-import "./FormField.css";
+import type { ComponentProps } from 'react';
+import './FormField.css';
 
-interface Props extends ComponentProps<"input"> {
+interface Props extends ComponentProps<'input'> {
   label: string;
 }
 
