@@ -11,7 +11,7 @@ const EmptyList = () => (
   <div className="advertsPage-empty">
     <p>No adverts at the moment</p>
 
-    <Link to = {'/advert/new'}>
+    <Link to={'/advert/new'}>
       <Button>Create advert</Button>
     </Link>
   </div>
@@ -40,7 +40,7 @@ Llamada a la api, esperar respuesta, recoger datos y modificar estado del compon
         <ul>
           {adverts.map((advert) => (
             <li key={advert.id}>
-              <Link to = {`/adverts/${advert.id}`}>
+              <Link to={`/adverts/${advert.id}`}>
                 <AdvertItem advert={advert} />
               </Link>
             </li>

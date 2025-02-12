@@ -15,7 +15,6 @@ export default function Header({ onLogout }: Props) {
   return (
     <header className="header">
       <nav className="header-nav">
-
         <Link to={'/login'}>
           <Button onClick={handleLogoutClick}>Logout</Button>
         </Link>
@@ -23,14 +22,16 @@ export default function Header({ onLogout }: Props) {
         {/*Usamos Navlink para que se quede marcado el titulo donde estamos*/}
         <NavLink
           to="/adverts/new"
-          className={({ isActive }) => (isActive ? 'selected' : '')}>
+          className={({ isActive }) => (isActive ? 'selected' : '')}
+        >
           New Advert
         </NavLink>
 
         <NavLink
           to="/adverts"
           className={({ isActive }) => (isActive ? 'selected' : '')}
-          end>
+          end
+        >
           Adverts List
         </NavLink>
       </nav>

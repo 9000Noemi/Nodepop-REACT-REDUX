@@ -5,7 +5,6 @@ import FormField from '../../components/shared/FormField';
 import { useAuth } from './context';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -26,9 +25,7 @@ function LoginPage() {
 
       //Una vez logado el usuario, le enviamos al link al que habia intentado entrar (con location)
       const to = location.state?.from ?? '/';
-      //navigate('/) SI QUEREMOS QUE LE REDIRIJA SOLO A LOGIN- TMB CAMBIAR EN REQUIREAUTH SI LO QUIERO ASI
       navigate(to, { replace: true });
-
     } catch (error) {
       console.error(error);
     }
@@ -62,15 +59,14 @@ function LoginPage() {
           value={password}
           onChange={handlePasswordChange}
         />
-        <Link to = {"/"}>  {/*REVISAR SI ESTO ESTA BIEN*/}
-          <Button
-            type="submit"
-            disabled={isDisabled}
-            className="loginForm-submit"
-          >
-            Log in
-          </Button>
-        </Link>
+
+        <Button
+          type="submit"
+          disabled={isDisabled}
+          className="loginForm-submit"
+        >
+          Log in
+        </Button>
       </form>
     </div>
   );

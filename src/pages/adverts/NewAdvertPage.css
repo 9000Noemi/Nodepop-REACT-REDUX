@@ -1,0 +1,64 @@
+.newAdvertPage-form {
+  background-color: #fff8dc; /* Fondo amarillo claro */
+  border: 1px solid #87cefa; /* Borde azul */
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 600px;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+}
+
+.newAdvertPage-form .formField {
+  margin-bottom: 15px;
+}
+
+.newAdvertPage-form label {
+  display: block;
+  font-weight: bold;
+  color: #4682b4; /* Azul */
+  margin-bottom: 5px;
+}
+
+.newAdvertPage-form input[type='text'],
+.newAdvertPage-form input[type='number'],
+.newAdvertPage-form input[type='file'],
+.newAdvertPage-form input[type='radio'],
+.newAdvertPage-form input[type='checkbox'] {
+  padding: 10px;
+  border: 1px solid #87cefa;
+  border-radius: 4px;
+  width: 100%;
+  margin-top: 5px;
+  box-sizing: border-box;
+}
+
+.newAdvertPage-form input[type='radio'],
+.newAdvertPage-form input[type='checkbox'] {
+  width: auto;
+  margin-right: 5px;
+}
+
+.newAdvertPage-form span {
+  font-size: 14px;
+  color: #4682b4;
+}
+
+.newAdvertPage-form .photo-preview {
+  margin-top: 10px;
+}
+
+.newAdvertPage-form .button {
+  background-color: #4682b4; /* Azul */
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.newAdvertPage-form .button:hover {
+  background-color: #5a9bd5;
+}

@@ -10,7 +10,8 @@ interface Props {
   title?: string;
 }
 
-export default function Layout({ children, title }: Props) {  //REVISAR TITLE, LO PONGO POR ADVERTPAGE
+export default function Layout({ children, title }: Props) {
+  //REVISAR TITLE, LO PONGO POR ADVERTPAGE
   return (
     <div className="layout">
       <Header

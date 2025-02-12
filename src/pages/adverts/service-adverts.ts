@@ -16,7 +16,11 @@ export const getAdvertList = async () => {
 };
 
 //POST: Crea un anuncio.
-export const createAdvert = async (advert: NewAdvert) => {
-  const response = await client.post<Advert>(advertsUrl, advert);
+export const createAdvert = async (advert: FormData) => {
+  const response = await client.post<Advert>(advertsUrl, advert, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return response.data;
 };

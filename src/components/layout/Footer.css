@@ -11,5 +11,7 @@
 .footer:hover {
   background-color: #fef4c5; /* Fondo ligeramente más oscuro al pasar el ratón */
   color: #d4a017; /* Amarillo dorado */
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }

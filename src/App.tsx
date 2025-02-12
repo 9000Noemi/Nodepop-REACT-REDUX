@@ -10,11 +10,9 @@ import RequireAuth from './pages/auth/RequireAuth';
 function App() {
   return (
     <Routes>
-
       {/*PUBLIC ROUTES*/}
 
       <Route path="/login" element={<LoginPage />} />
-
 
       {/*PRIVATE ROUTES*/}
 
@@ -30,8 +28,9 @@ function App() {
         }
       >
         <Route index element={<AdvertsPage />} />
-        <Route path= ":advertId" element= { < AdvertPage />} /> 
-        <Route path= "new" element= { < NewAdvertPage />} /></Route>
+        <Route path=":advertId" element={<AdvertPage />} />
+        <Route path="new" element={<NewAdvertPage />} />
+      </Route>
 
       <Route path="/" element={<Navigate to="/adverts" />} />
       <Route path="/404" element={<div>404 | Not Found</div>} />
