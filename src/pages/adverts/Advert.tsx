@@ -1,21 +1,17 @@
-//import Photo from "./Photo";
-//import "../css/Ad.css";
 import type { Advert } from './types';
+import './Advert.css';
 
-interface Props {
-  advert: Advert;
-}
+/*Componente que recibe datos de un objeto Advert como props y 
+muestra un anuncio en el listado de AdvertsPage*/
 
-const AdvertItem = ({ advert }: Props) => {
-  const { name, sale, price, tags, photo, id } = advert;
+const AdvertItem = ({ name, sale, price, tags, id }: Advert) => {
+  
   return (
     <div className="advert-container" key={id}>
-      <a href={`http://localhost:3000/adverts/${id}`}>
+      <a href={`/adverts/${id}`}>
         <p className="ad-name">{name}</p>
       </a>
-      {/*{photo && (
-        <Photo src={http://localhost:3001${photo}} alt={name} height="300" width="300" />
-      )}*/}
+  
       <span className="separator"></span>
       <p className="ad-price">{price}</p>
       <p className="ad-sale">{sale ? 'sell' : 'buy'}</p>

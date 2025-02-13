@@ -3,9 +3,10 @@
   min-height: calc(100vh - 128px);
   margin: 0 auto;
   border-style: solid;
-  border-color: rgb(var(--color-border));
+  border-color: #00bfae; /* Azul turquesa */
   border-left-width: 1px;
   border-right-width: 1px;
+  background-color: transparent; /* Fondo transparente */
 }
 
 @media (max-width: 660px) {
@@ -17,9 +18,11 @@
 .layout-title {
   align-items: center;
   border-style: solid;
-  border-color: rgb(var(--color-border));
+  border-color: #00bfae; /* Azul turquesa */
   border-bottom-width: 1px;
   display: flex;
   height: 52px;
   padding: 0 15px;
+  color: #1a1a1a; /* Negro para el texto */
+  background-color: transparent; /* Fondo transparente */
 }

@@ -7,18 +7,12 @@ import './Layout.css';
 
 interface Props {
   children: ReactNode;
-  title?: string;
 }
 
-export default function Layout({ children, title }: Props) {
-  //REVISAR TITLE, LO PONGO POR ADVERTPAGE
+export default function Layout({ children }: Props) {
   return (
     <div className="layout">
-      <Header
-        onLogout={function (): void {
-          throw new Error('Function not implemented.');
-        }}
-      />
+      <Header />
       <main className="layout-main">{children}</main>
       <Footer />
     </div>

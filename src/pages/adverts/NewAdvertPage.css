@@ -1,6 +1,6 @@
 .newAdvertPage-form {
-  background-color: #fff8dc; /* Fondo amarillo claro */
-  border: 1px solid #87cefa; /* Borde azul */
+  background-color: transparent; /* Fondo transparente */
+  border: 1px solid #00bfae; /* Borde azul turquesa */
   border-radius: 8px;
   padding: 20px;
   max-width: 600px;
@@ -16,7 +16,7 @@
 .newAdvertPage-form label {
   display: block;
   font-weight: bold;
-  color: #4682b4; /* Azul */
+  color: #1a1a1a; /* Negro para las etiquetas */
   margin-bottom: 5px;
 }
 
@@ -26,11 +26,13 @@
 .newAdvertPage-form input[type='radio'],
 .newAdvertPage-form input[type='checkbox'] {
   padding: 10px;
-  border: 1px solid #87cefa;
+  border: 1px solid #00bfae; /* Borde azul turquesa */
   border-radius: 4px;
   width: 100%;
   margin-top: 5px;
   box-sizing: border-box;
+  background-color: transparent; /* Fondo transparente */
+  color: #1a1a1a; /* Texto negro */
 }
 
 .newAdvertPage-form input[type='radio'],
@@ -41,7 +43,7 @@
 
 .newAdvertPage-form span {
   font-size: 14px;
-  color: #4682b4;
+  color: #1a1a1a; /* Texto negro */
 }
 
 .newAdvertPage-form .photo-preview {
@@ -49,7 +51,7 @@
 }
 
 .newAdvertPage-form .button {
-  background-color: #4682b4; /* Azul */
+  background-color: #00bfae; /* Azul turquesa */
   color: white;
   border: none;
   padding: 12px 20px;
@@ -60,5 +62,5 @@
 }
 
 .newAdvertPage-form .button:hover {
-  background-color: #5a9bd5;
+  background-color: #00a699; /* Azul turquesa más oscuro */
 }

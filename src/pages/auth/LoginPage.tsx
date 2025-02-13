@@ -11,7 +11,6 @@ import { ApiClientError } from '../../api/error';
 
 import './LoginPage.css';
 
-
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,11 +37,9 @@ function LoginPage() {
       const to = location.state?.from ?? '/';
       navigate(to, { replace: true });
     } catch (error) {
-      
       if (isApiClientError(error)) {
         setError(error);
-        };
-        
+      }
     } finally {
       setIsLoading(false);
     }
@@ -90,7 +87,6 @@ function LoginPage() {
             {error.message}
           </div>
         )}
-
       </form>
     </div>
   );

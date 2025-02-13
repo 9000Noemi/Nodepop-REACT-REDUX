@@ -1,6 +1,6 @@
 //Inicializamos el cliente Axios
 
-import axios, { isAxiosError } from "axios";
+import axios, { isAxiosError } from 'axios';
 import { ApiClientError } from './error';
 
 export const client = axios.create({
@@ -17,11 +17,9 @@ export const removeAuthorizationHeader = () => {
   delete client.defaults.headers['Authorization'];
 };
 
-
-
 client.interceptors.response.use(undefined, (error) => {
   // Unknown Error
-  const clientError = new ApiClientError("Api Client Error");
+  const clientError = new ApiClientError('Api Client Error');
 
   if (error instanceof Error) {
     // Error instance
@@ -36,16 +34,16 @@ client.interceptors.response.use(undefined, (error) => {
       const errorCode = error.code;
       const errorStatus = error.response?.status ?? error.status;
 
-      if (errorCode === "ERR_NETWORK") {
-        clientError.code = "NETWORK_ERROR";
+      if (errorCode === 'ERR_NETWORK') {
+        clientError.code = 'NETWORK_ERROR';
       }
-      if (typeof errorStatus === "number") {
+      if (typeof errorStatus === 'number') {
         if (errorStatus === 401) {
-          clientError.code = "UNAUTHORIZED";
+          clientError.code = 'UNAUTHORIZED';
         } else if (errorStatus === 404) {
-          clientError.code = "NOT_FOUND";
+          clientError.code = 'NOT_FOUND';
         } else if (errorStatus >= 500) {
-          clientError.code = "SERVER_ERROR";
+          clientError.code = 'SERVER_ERROR';
         }
       }
     }

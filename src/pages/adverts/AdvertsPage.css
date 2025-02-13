@@ -1,57 +1,124 @@
 .advertsPage {
-    background-color: #fff9db; /* Amarillo claro */
-    color: #1e3a8a; /* Azul oscuro */
-    font-family: 'Arial', sans-serif;
-    text-align: center;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    margin: 2rem auto;
-  }
-  
-  h1 {
-    font-size: 2.5rem;
-    color: #1e3a8a; /* Azul */
-    margin-bottom: 1.5rem;
-  }
-  
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-  }
-  
-  li {
-    background-color: #e0e7ff; /* Azul claro */
-    border: 2px solid #1e3a8a;
-    border-radius: 8px;
-    padding: 1rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  li:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  }
-  
-  .advertsPage-empty {
-    padding: 2rem;
-    border: 2px dashed #1e3a8a;
-    border-radius: 8px;
-    background-color: #fff4cc; /* Fondo amarillo más suave */
-    color: #1e3a8a;
-  }
-  
-  .advertsPage-empty p {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-  }
-  
-  .advertsPage-empty a {
-    text-decoration: none;
-  }
-  
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco con transparencia */
+  color: #1a1a1a; /* Negro para el texto */
+  font-family: 'Arial', sans-serif;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  max-width: 1200px;
+  margin: 2rem auto;
+}
+
+.advertsPage h2 {
+  font-size: 2rem;
+  color: #00bfae; /* Azul turquesa */
+  margin-bottom: 1rem;
+}
+
+.filter-section {
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.filter-section p {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #00bfae; /* Azul turquesa */
+  margin-bottom: 0.5rem;
+}
+
+.filter-section label {
+  display: inline-block;
+  margin-right: 1.5rem;
+  font-size: 1rem;
+  color: #1a1a1a; /* Negro para el texto de los filtros */
+}
+
+.filter-section input[type="radio"] {
+  margin-right: 0.5rem;
+}
+
+.adsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 2 o más columnas dependiendo del tamaño de pantalla */
+  gap: 1.5rem;
+}
+
+.advertsPage-empty {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #64748b; /* Gris azulado */
+  margin-top: 2rem;
+}
+
+.advertsPage-empty p {
+  margin-bottom: 1rem;
+}
+
+.advertsPage-empty a {
+  text-decoration: none;
+}
+
+.advertsPage-empty a button {
+  background-color: #00bfae; /* Azul turquesa */
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.advertsPage-empty a button:hover {
+  background-color: #009b96; /* Azul turquesa oscuro */
+}
+
+/* Estilo para los anuncios individuales */
+.advert-container {
+  background-color: #fff; /* Fondo blanco para cada anuncio */
+  color: #1a1a1a; /* Texto negro */
+  border: 2px solid #00bfae; /* Borde turquesa */
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.advert-container:hover {
+  transform: scale(1.05); /* Aumento de tamaño al pasar el ratón */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.advert-container a {
+  text-decoration: none;
+}
+
+.ad-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1a1a1a; /* Negro para el nombre */
+}
+
+.separator {
+  display: block;
+  height: 1px;
+  background-color: #00bfae; /* Azul turquesa para el separador */
+  margin: 1rem 0;
+}
+
+.ad-price {
+  font-size: 1.2rem;
+  color: #00bfae; /* Azul turquesa para el precio */
+}
+
+.ad-sale {
+  font-size: 1rem;
+  color: #1a1a1a; /* Negro para el estado de compra/venta */
+}
+
+.ad-tags {
+  font-size: 1rem;
+  color: #64748b; /* Gris azulado para las etiquetas */
+  margin-top: 0.5rem;
+}

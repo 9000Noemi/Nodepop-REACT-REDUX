@@ -6,6 +6,7 @@ import { NewAdvert } from './types';
 import { isApiClientError } from '../../api/client';
 import FormField from '../../components/shared/FormField';
 import './NewAdvertPage.css';
+import Page from '../../components/layout/Page';
 
 function NewAdvertPageForm() {
   const [advert, setAdvert] = useState<NewAdvert>({
@@ -60,103 +61,105 @@ function NewAdvertPageForm() {
   };
 
   return (
-    <form className="newAdvertPage-form" onSubmit={handleSubmit}>
-      <FormField
-        type="text"
-        name="name"
-        label="Name of your item"
-        className="name"
-        value={advert.name}
-        onChange={handleChange}
-        required
-      ></FormField>
+    <Page title="Create your advert">
+      <form className="newAdvertPage-form" onSubmit={handleSubmit}>
+        <FormField
+          type="text"
+          name="name"
+          label="Name of your item"
+          className="name"
+          value={advert.name}
+          onChange={handleChange}
+          required
+        ></FormField>
 
-      <FormField
-        type="radio"
-        name="sale"
-        label="Sell"
-        className="sale"
-        value="true"
-        onChange={handleChange}
-        checked={advert.sale === true}
-      ></FormField>
+        <FormField
+          type="radio"
+          name="sale"
+          label="Sell"
+          className="sale"
+          value="true"
+          onChange={handleChange}
+          checked={advert.sale === true}
+        ></FormField>
 
-      <FormField
-        type="radio"
-        name="sale"
-        label="Buy"
-        className="sale"
-        value="false"
-        onChange={handleChange}
-        checked={advert.sale === false}
-      ></FormField>
+        <FormField
+          type="radio"
+          name="sale"
+          label="Buy"
+          className="sale"
+          value="false"
+          onChange={handleChange}
+          checked={advert.sale === false}
+        ></FormField>
 
-      <FormField
-        type="number"
-        name="price"
-        label="Price of your item"
-        className="price"
-        value={advert.price}
-        onChange={handleChange}
-        required
-      ></FormField>
+        <FormField
+          type="number"
+          name="price"
+          label="Price of your item"
+          className="price"
+          value={advert.price}
+          onChange={handleChange}
+          required
+        ></FormField>
 
-      <div className="formField">
-        <span>Tags</span>
-        <label>
-          <input
-            type="checkbox"
-            name="tags"
-            value="lifestyle"
-            checked={advert.tags.includes('lifestyle')}
-            onChange={handleChange}
-          />
-          Lifestyle
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="tags"
-            value="mobile"
-            checked={advert.tags.includes('mobile')}
-            onChange={handleChange}
-          />
-          Mobile
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="tags"
-            value="motor"
-            checked={advert.tags.includes('motor')}
-            onChange={handleChange}
-          />
-          Motor
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="tags"
-            value="work"
-            checked={advert.tags.includes('work')}
-            onChange={handleChange}
-          />
-          Work
-        </label>
-      </div>
+        <div className="formField">
+          <span>Tags</span>
+          <label>
+            <input
+              type="checkbox"
+              name="tags"
+              value="lifestyle"
+              checked={advert.tags.includes('lifestyle')}
+              onChange={handleChange}
+            />
+            Lifestyle
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              name="tags"
+              value="mobile"
+              checked={advert.tags.includes('mobile')}
+              onChange={handleChange}
+            />
+            Mobile
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              name="tags"
+              value="motor"
+              checked={advert.tags.includes('motor')}
+              onChange={handleChange}
+            />
+            Motor
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              name="tags"
+              value="work"
+              checked={advert.tags.includes('work')}
+              onChange={handleChange}
+            />
+            Work
+          </label>
+        </div>
 
-      <FormField
-        type="file"
-        name="photo"
-        label="Photo"
-        className="photo"
-        onChange={handleChange}
-      ></FormField>
+        <FormField
+          type="file"
+          name="photo"
+          label="Photo"
+          className="photo"
+          onChange={handleChange}
+        ></FormField>
 
-      <Button className="button" type="submit" variant="primary">
-        Create Advert
-      </Button>
-    </form>
+        <Button className="button" type="submit" variant="primary">
+          Create Advert
+        </Button>
+      </form>
+    </Page>
   );
 }
 

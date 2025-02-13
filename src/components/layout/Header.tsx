@@ -1,24 +1,11 @@
-import { logout } from '../../pages/auth/service-auth';
-import Button from '../shared/Button';
+import AuthButton from '../../pages/auth/AuthButton';
+import { NavLink } from 'react-router-dom';
 import './Header.css';
-import { Link, NavLink } from 'react-router-dom';
 
-interface Props {
-  onLogout: () => void;
-}
-
-export default function Header({ onLogout }: Props) {
-  const handleLogoutClick = async () => {
-    await logout();
-    onLogout(); //HACER NAVIGATE PARA VOLVER AL LOGIN
-  };
+export default function Header() {
   return (
     <header className="header">
       <nav className="header-nav">
-        <Link to={'/login'}>
-          <Button onClick={handleLogoutClick}>Logout</Button>
-        </Link>
-
         {/*Usamos Navlink para que se quede marcado el titulo donde estamos*/}
         <NavLink
           to="/adverts/new"
@@ -34,6 +21,7 @@ export default function Header({ onLogout }: Props) {
         >
           Adverts List
         </NavLink>
+        <AuthButton />
       </nav>
     </header>
   );

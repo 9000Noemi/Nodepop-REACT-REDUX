@@ -1,16 +1,16 @@
 .footer {
-  background-color: #fff9db; /* Amarillo muy claro */
+  background-color: transparent; /* Fondo transparente */
   padding: 15px 20px;
-  border-top: 1px solid #f1e5b3;
+  border-top: 1px solid #00bfae; /* Azul turquesa */
   text-align: center;
-  color: #6d4e00; /* Marrón suave */
+  color: #1a1a1a; /* Texto en negro */
   font-size: 14px;
   font-weight: 500;
 }
 
 .footer:hover {
-  background-color: #fef4c5; /* Fondo ligeramente más oscuro al pasar el ratón */
-  color: #d4a017; /* Amarillo dorado */
+  background-color: #00bfae; /* Azul turquesa claro al pasar el ratón */
+  color: #ffffff; /* Blanco cuando se pasa el ratón */
   transition:
     background-color 0.3s ease,
     color 0.3s ease;

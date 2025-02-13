@@ -1,0 +1,43 @@
+.advertPage {
+  background-color: transparent; /* Fondo transparente */
+  color: #1a1a1a; /* Negro para el texto */
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 2rem auto;
+  border: 2px solid #00bfae; /* Azul turquesa como borde */
+}
+
+.advertPage h2 {
+  font-size: 2rem;
+  color: #00bfae; /* Azul turquesa para los títulos */
+  margin-bottom: 1rem;
+}
+
+.advertPage img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border: 2px solid #00bfae; /* Azul turquesa alrededor de la imagen */
+}
+
+.advertPage p {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+  color: #1a1a1a; /* Negro para el texto */
+}
+
+.advertPage p strong {
+  font-weight: bold;
+  color: #00bfae; /* Azul turquesa para resaltar */
+}
+
+.loadingMessage {
+  font-size: 1.5rem;
+  color: #00bfae; /* Azul turquesa para el mensaje de carga */
+  margin-top: 2rem;
+}

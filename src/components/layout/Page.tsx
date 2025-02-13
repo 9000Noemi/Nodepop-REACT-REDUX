@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
 import './Layout.css';
 
+//Particularizar cada una de las paginas
+
 interface Props {
   title: string;
   children: ReactNode;
