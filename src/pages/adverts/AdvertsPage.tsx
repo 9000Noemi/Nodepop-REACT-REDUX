@@ -4,6 +4,7 @@ import type { Advert } from './types';
 import Button from '../../components/shared/Button';
 import AdvertItem from './Advert';
 import { Link } from 'react-router-dom';
+import './AdvertsPage.css';
 
 //Listado de anuncios
 

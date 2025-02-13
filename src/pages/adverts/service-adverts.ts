@@ -24,3 +24,11 @@ export const createAdvert = async (advert: FormData) => {
   });
   return response.data;
 };
+
+
+//GET: Detalle del anuncio
+export const getAdvert = async (advertId: string) => {
+  const url = `${advertsUrl}/${advertId}`;
+  const response = await client.get<Advert>(url);
+  return response.data;
+};

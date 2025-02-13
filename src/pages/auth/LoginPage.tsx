@@ -1,9 +1,16 @@
 import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import { login } from './service-auth';
+import { useAuth } from './context';
 import Button from '../../components/shared/Button';
 import FormField from '../../components/shared/FormField';
-import { useAuth } from './context';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+
+import { isApiClientError } from '../../api/client';
+import { ApiClientError } from '../../api/error';
+
+import './LoginPage.css';
+
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -11,15 +18,19 @@ function LoginPage() {
   const { onLogin } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const [error, setError] = useState<ApiClientError | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
+      setIsLoading(true);
       const response = await login({
         email,
         password,
       });
+
       console.log(response);
       onLogin();
 
@@ -27,7 +38,13 @@ function LoginPage() {
       const to = location.state?.from ?? '/';
       navigate(to, { replace: true });
     } catch (error) {
-      console.error(error);
+      
+      if (isApiClientError(error)) {
+        setError(error);
+        };
+        
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -39,7 +56,7 @@ function LoginPage() {
     setPassword(event.target.value);
   };
 
-  const isDisabled = !email || !password;
+  const isDisabled = !email || !password || isLoading;
 
   return (
     <div className="loginPage">
@@ -67,6 +84,13 @@ function LoginPage() {
         >
           Log in
         </Button>
+
+        {error && (
+          <div className="loginPage-error" onClick={() => setError(null)}>
+            {error.message}
+          </div>
+        )}
+
       </form>
     </div>
   );
