@@ -11,14 +11,23 @@ Servicio de comunicación con la API: funciones que interactuan con los endpoint
 */
 
 //POST: Devuelve un token(response.data) cuando le pasamos un email y password de un usuario correctos(credentials)
-export const login = async (credentials: Credentials) => {
+export const login = async (credentials: Credentials,  rememberMe: boolean) => {
   const response = await client.post<Login>('/api/auth/login', credentials);
   const { accessToken } = response.data;
-  storage.set('auth', accessToken);
+
+  if (rememberMe) {
+    // Si "Recordar contraseña" está marcado, guardamos el token en el localStorage
+    localStorage.setItem('auth', accessToken);
+  } else {
+    // Si no, almacenamos el token solo en memoria (esto no lo persiste entre sesiones)
+    storage.set('auth', accessToken);
+  }
+
   setAuthorizationHeader(accessToken);
 };
 
 export const logout = async () => {
+  localStorage.removeItem('auth');  // Limpiamos el localStorage al hacer logout
   storage.remove('auth');
   removeAuthorizationHeader();
 };

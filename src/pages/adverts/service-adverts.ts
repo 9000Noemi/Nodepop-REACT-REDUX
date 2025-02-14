@@ -31,3 +31,10 @@ export const getAdvert = async (advertId: string) => {
   const response = await client.get<Advert>(url);
   return response.data;
 };
+
+//DELETE: Borrado del anuncio
+export const deleteAdvert = async (advertId: string) => {
+  const url = `${advertsUrl}/${advertId}`;
+  const response = await client.delete<Advert>(url);
+  return response.data;
+}

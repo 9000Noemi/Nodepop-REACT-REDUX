@@ -19,21 +19,27 @@ function NewAdvertPageForm() {
 
   const navigate = useNavigate();
 
+  //Gestionar el envío del formulario
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    //Evita que la página se recargue al enviar el formulario.
     event.preventDefault();
 
+    //Crea un objeto FormData que contiene todos los datos del formulario para enviarse al servidor
     const formData = new FormData();
     formData.append('name', advert.name);
     formData.append('sale', String(advert.sale));
     formData.append('price', String(advert.price));
-    formData.append('tags', String(advert.tags));
+    formData.append('tags', advert.tags.join(','));
     if (advert.photo) {
       formData.append('photo', advert.photo);
     }
 
     try {
+      //Llamada a la función createAdvert
       const createdAdvert = await createAdvert(formData);
+      //Si se crea el anuncio redirige a la pagina del detalle del mismo
       navigate(`/adverts/${createdAdvert.id}`);
+      //Si ocurre un error:
     } catch (error) {
       if (isApiClientError(error)) {
         if (error.code === 'UNAUTHORIZED') {
@@ -44,21 +50,38 @@ function NewAdvertPageForm() {
     }
   };
 
+  // Gestionar cambios en los campos del formulario: actualizar el estado con los inputs
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
-    const { name, value, type, files } = event.target as HTMLInputElement;
 
-    setAdvert((prevAdvert) => ({
-      ...prevAdvert,
-      [name]:
-        name === 'sale'
-          ? value === 'true'
-          : type === 'file' && files
-            ? files[0]
-            : value,
-    }));
+    //Extraer los datos del evento
+    const { name, value, type, files, checked  } = event.target as HTMLInputElement;
+
+    //Actualizar el estado
+    setAdvert((prevAdvert) => {
+      if (type === 'file' && files) {
+        return { ...prevAdvert, photo: URL.createObjectURL(files[0]) };
+      }
+
+      if (type === 'checkbox') {
+        const newTags = checked
+          ? [...prevAdvert.tags, value]
+          : prevAdvert.tags.filter((tag) => tag !== value);
+        return { ...prevAdvert, tags: newTags };
+      }
+
+      return {
+        ...prevAdvert,
+        [name]: name === 'sale' ? value === 'true' : value,
+      };
+    });
   };
+ 
+
+  // Deshabilitar el botón si falta algún campo obligatorio
+  const { name, price, tags } = advert;
+  const isDisabled = !name || price <= 0 || tags.length === 0;
 
   return (
     <Page title="Create your advert">
@@ -155,7 +178,7 @@ function NewAdvertPageForm() {
           onChange={handleChange}
         ></FormField>
 
-        <Button className="button" type="submit" variant="primary">
+        <Button className="button" type="submit" variant="primary" disabled={isDisabled}>
           Create Advert
         </Button>
       </form>

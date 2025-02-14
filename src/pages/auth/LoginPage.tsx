@@ -12,8 +12,14 @@ import { ApiClientError } from '../../api/error';
 import './LoginPage.css';
 
 function LoginPage() {
+
+  //Estados para controlar los inputs
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  // Estado para el checkbox
+  const [rememberMe, setRememberMe] = useState(false);
+
   const { onLogin } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
@@ -28,7 +34,7 @@ function LoginPage() {
       const response = await login({
         email,
         password,
-      });
+      }, rememberMe);
 
       console.log(response);
       onLogin();
@@ -53,6 +59,10 @@ function LoginPage() {
     setPassword(event.target.value);
   };
 
+  const handleRememberMeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRememberMe(event.target.checked);
+  };
+
   const isDisabled = !email || !password || isLoading;
 
   return (
@@ -73,6 +83,16 @@ function LoginPage() {
           value={password}
           onChange={handlePasswordChange}
         />
+
+        <div className="remember-me">
+          <input
+            type="checkbox"
+            id="remember-me"
+            checked={rememberMe}
+            onChange={handleRememberMeChange}
+          />
+          <label htmlFor="remember-me">Remember me</label>
+        </div>
 
         <Button
           type="submit"

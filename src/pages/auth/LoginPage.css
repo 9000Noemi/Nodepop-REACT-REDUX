@@ -44,3 +44,16 @@ input:focus {
   border-color: #007f7f; /* Azul turquesa más oscuro */
   box-shadow: 0 0 4px rgba(0, 127, 127, 0.5); /* Sombra azul turquesa */
 }
+
+.remember-me {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.remember-me input {
+  margin-right: 5px;
+}
+
+.remember-me label {
+  cursor: pointer;
+}
