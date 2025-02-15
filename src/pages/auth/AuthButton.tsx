@@ -12,9 +12,9 @@ Además, al hacer clic en el botón de logout, se muestra un diálogo de confirm
 export default function AuthButton() {
   const { isLogged, onLogout } = useAuth();
   // Estado para mostrar el mensaje de confirmacion
-  const [showConfirmation, setShowConfirmation] = useState(false); 
+  const [showConfirmation, setShowConfirmation] = useState(false);
   // Estado para manejar el estado de carga (si es necesario)
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
 
   // Función para manejar el clic en el botón de logout
   const handleLogoutClick = () => {

@@ -4,14 +4,14 @@ import { Advert } from './types';
 import { deleteAdvert, getAdvert } from './service-adverts';
 import { isApiClientError } from '../../api/client';
 import Page from '../../components/layout/Page';
-import ConfirmationDialog from '../../components/shared/ConfirmationDialog'; 
+import ConfirmationDialog from '../../components/shared/ConfirmationDialog';
 import './AdvertPage.css';
 
 function AdvertPage() {
   const params = useParams();
   const navigate = useNavigate();
   const [advert, setAdvert] = useState<Advert | null>(null);
-   // Estado para mostrar el mensaje de confirmacion
+  // Estado para mostrar el mensaje de confirmacion
   const [showConfirmation, setShowConfirmation] = useState(false);
   // Estado para manejar el estado de carga (si es necesario)
   const [loading, setLoading] = useState(false);
@@ -30,7 +30,6 @@ function AdvertPage() {
     }
   }, [params.advertId, navigate]);
 
-  
   const handleDelete = async () => {
     if (advert && params.advertId) {
       setLoading(true);
@@ -48,7 +47,6 @@ function AdvertPage() {
 
   const handleShowConfirmation = () => setShowConfirmation(true);
   const handleCancelDelete = () => setShowConfirmation(false);
-
 
   return (
     <Page title="Advert Detail">
@@ -71,19 +69,19 @@ function AdvertPage() {
           </p>
           <button onClick={handleShowConfirmation}>Delete Advert</button>
 
-        {showConfirmation && (
-          <ConfirmationDialog
-            message="Are you sure you want to delete this advert?"
-            onConfirm={handleDelete}
-            onCancel={handleCancelDelete}
-            loading={loading}
-          />
-  )}
-  </div>
-  ) : (
-  <p>Loading advert details...</p>
-  )}
-      </Page>
-    );
-  }
+          {showConfirmation && (
+            <ConfirmationDialog
+              message="Are you sure you want to delete this advert?"
+              onConfirm={handleDelete}
+              onCancel={handleCancelDelete}
+              loading={loading}
+            />
+          )}
+        </div>
+      ) : (
+        <p>Loading advert details...</p>
+      )}
+    </Page>
+  );
+}
 export default AdvertPage;

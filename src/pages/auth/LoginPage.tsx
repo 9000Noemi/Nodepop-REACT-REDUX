@@ -12,7 +12,6 @@ import { ApiClientError } from '../../api/error';
 import './LoginPage.css';
 
 function LoginPage() {
-
   //Estados para controlar los inputs
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,10 +30,13 @@ function LoginPage() {
 
     try {
       setIsLoading(true);
-      const response = await login({
-        email,
-        password,
-      }, rememberMe);
+      const response = await login(
+        {
+          email,
+          password,
+        },
+        rememberMe,
+      );
 
       console.log(response);
       onLogin();
@@ -59,7 +61,9 @@ function LoginPage() {
     setPassword(event.target.value);
   };
 
-  const handleRememberMeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleRememberMeChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     setRememberMe(event.target.checked);
   };
 

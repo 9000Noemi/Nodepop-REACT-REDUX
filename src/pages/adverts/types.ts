@@ -13,5 +13,5 @@ export interface NewAdvert {
   sale: boolean;
   price: number;
   tags: string[];
-  photo: string;
+  photo: File | null;
 }

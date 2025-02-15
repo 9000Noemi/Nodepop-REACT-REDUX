@@ -14,7 +14,7 @@ function NewAdvertPageForm() {
     sale: true,
     price: 0,
     tags: [],
-    photo: '',
+    photo: null,
   });
 
   const navigate = useNavigate();
@@ -33,7 +33,6 @@ function NewAdvertPageForm() {
     if (advert.photo) {
       formData.append('photo', advert.photo);
     }
-
     try {
       //Llamada a la función createAdvert
       const createdAdvert = await createAdvert(formData);
@@ -54,14 +53,14 @@ function NewAdvertPageForm() {
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
-
     //Extraer los datos del evento
-    const { name, value, type, files, checked  } = event.target as HTMLInputElement;
+    const { name, value, type, files, checked } =
+      event.target as HTMLInputElement;
 
     //Actualizar el estado
     setAdvert((prevAdvert) => {
       if (type === 'file' && files) {
-        return { ...prevAdvert, photo: URL.createObjectURL(files[0]) };
+        return { ...prevAdvert, photo: files[0] }; // Guardamos el archivo binario
       }
 
       if (type === 'checkbox') {
@@ -77,7 +76,6 @@ function NewAdvertPageForm() {
       };
     });
   };
- 
 
   // Deshabilitar el botón si falta algún campo obligatorio
   const { name, price, tags } = advert;
@@ -178,7 +176,12 @@ function NewAdvertPageForm() {
           onChange={handleChange}
         ></FormField>
 
-        <Button className="button" type="submit" variant="primary" disabled={isDisabled}>
+        <Button
+          className="button"
+          type="submit"
+          variant="primary"
+          disabled={isDisabled}
+        >
           Create Advert
         </Button>
       </form>
