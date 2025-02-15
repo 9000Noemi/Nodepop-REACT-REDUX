@@ -6,6 +6,7 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import AdvertPage from './pages/adverts/AdvertPage';
 import RequireAuth from './pages/auth/RequireAuth';
+import NotFoundPage from './components/shared/NotFoundPage';
 
 function App() {
   return (
@@ -33,8 +34,8 @@ function App() {
       </Route>
 
       <Route path="/" element={<Navigate to="/adverts" />} />
-      <Route path="/404" element={<div>404 | Not Found</div>} />
-      <Route path="*" element={<Navigate to="/404" />} />
+      <Route path="/404" element={<NotFoundPage/>} />
+      <Route path="*" element={<NotFoundPage/>} />
     </Routes>
   );
 }
