@@ -1,5 +1,5 @@
 import { client } from '../../api/client';
-import type { Advert, NewAdvert } from './types';
+import type { Advert } from './types';
 
 /*
 Servicio de comunicación con la API: funciones que interactuan con los endpoints del back

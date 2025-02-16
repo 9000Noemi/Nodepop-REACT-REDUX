@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { getAdvertList } from './service-adverts';
 import Button from '../../components/shared/Button';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Page from '../../components/layout/Page';
 import FormField from '../../components/shared/FormField';
 import AdvertItem from './Advert';

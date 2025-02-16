@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import AdvertsPage from './pages/adverts/AdvertsPage';
 import LoginPage from './pages/auth/LoginPage';
 import NewAdvertPage from './pages/adverts/NewAdvertPage';
