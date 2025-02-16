@@ -27,12 +27,12 @@ export default function AuthButton() {
     await logout(); // Llamada a la función de logout
     onLogout(); // Actualiza el estado de autenticación
     setLoading(false); // Desactivar el estado de carga
-    setShowConfirmation(false); // Cierra el diálogo de confirmación
+    setShowConfirmation(false); // Cierra el mensaje de confirmación
   };
 
   // Función que se llama cuando el usuario cancela el logout
   const handleCancelLogout = () => {
-    setShowConfirmation(false); // Cierra el diálogo sin hacer nada
+    setShowConfirmation(false); // Cierra el mensaje sin hacer nada
   };
 
   return (
@@ -43,7 +43,7 @@ export default function AuthButton() {
             Logout
           </Button>
 
-          {/* Mostrar el diálogo de confirmación */}
+          {/* Mostrar el mensaje de confirmación */}
           {showConfirmation && (
             <ConfirmationDialog
               message="Are you sure you want to logout?"

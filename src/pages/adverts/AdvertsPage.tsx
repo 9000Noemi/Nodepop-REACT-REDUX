@@ -57,7 +57,7 @@ Llamada a la api, esperar respuesta, recoger datos y modificar estado del compon
     return advert.name.toLowerCase().includes(nameToFilter.toLowerCase());
   };
 
-  //Si advert.sale es true: sell, si no buy. Por defecto es all, asi q si no cambia muestra all
+  //Si advert.sale es true: sell, si no: buy. Por defecto es all, asi que si no cambia muestra all
   const saleFilter = (advert: Advert) => {
     const sellBuy = advert.sale ? 'sell' : 'buy';
     return saleToFilter === 'all' || saleToFilter === sellBuy;
