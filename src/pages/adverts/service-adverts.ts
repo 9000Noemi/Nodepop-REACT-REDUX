@@ -38,3 +38,11 @@ export const deleteAdvert = async (advertId: string) => {
   const response = await client.delete<Advert>(url);
   return response.data;
 };
+
+//GET: Tags
+export const getTags = async () => {
+  const url = `${advertsUrl}/tags`;
+  const response = await client.get<string[]>(url);
+  return response.data;
+}
+ 

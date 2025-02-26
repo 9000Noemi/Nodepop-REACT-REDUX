@@ -1,6 +1,6 @@
-  import { ChangeEvent, useState } from 'react';
+  import { ChangeEvent, useEffect, useState } from 'react';
   import Button from '../../components/shared/Button';
-  import { createAdvert } from './service-adverts';
+  import { createAdvert, getTags } from './service-adverts';
   import { useNavigate } from 'react-router-dom';
   import { NewAdvert } from './types';
   import { isApiClientError } from '../../api/client';
@@ -16,6 +16,26 @@
       tags: [],
       photo: null,
     });
+
+
+    //Manejar el estado del array de tags
+    const [tagsArray, setTagsArray] = useState<string[] | null> (null);
+
+    /*Ejecutar una función asíncrona (fetchTags) cuando el componente se monta ([] como dependencia
+     significa que solo se ejecuta una vez)*/
+
+    useEffect(() => {
+      //fetchTags obtiene datos llamando a getTags(), que devuelve la lista de tags
+      const fetchTags = async () => {
+        const tags = await getTags();
+        //actualizar el estado con setTagsArray(tags)
+        setTagsArray(tags);
+      };
+    
+      fetchTags();
+    }, []);
+    
+
 
     const navigate = useNavigate();
 
@@ -126,46 +146,18 @@
 
           <div className="formField">
             <span>Tags</span>
-            <label>
-              <input
-                type="checkbox"
-                name="tags"
-                value="lifestyle"
-                checked={advert.tags.includes('lifestyle')}
-                onChange={handleChange}
-              />
-              Lifestyle
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="tags"
-                value="mobile"
-                checked={advert.tags.includes('mobile')}
-                onChange={handleChange}
-              />
-              Mobile
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="tags"
-                value="motor"
-                checked={advert.tags.includes('motor')}
-                onChange={handleChange}
-              />
-              Motor
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="tags"
-                value="work"
-                checked={advert.tags.includes('work')}
-                onChange={handleChange}
-              />
-              Work
-            </label>
+            {tagsArray?.map((tag) => (
+              <label key={tag}>
+                <input
+                  type="checkbox"
+                  name="tags"
+                  value={tag}
+                  checked={advert.tags.includes(tag)}
+                  onChange={handleChange}
+                />
+                {tag}
+              </label>
+            ))}
           </div>
 
           <FormField
