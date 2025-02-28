@@ -44,5 +44,4 @@ export const getTags = async () => {
   const url = `${advertsUrl}/tags`;
   const response = await client.get<string[]>(url);
   return response.data;
-}
- 
+};
