@@ -1,6 +1,14 @@
 import { Advert } from "../pages/adverts/types"
 
-//Para el login definimos dos acciones
+/*
+Acciones para manejar el estado global de la aplicacion:
+1)Definición de tipos para las acciones (TS)
+2)Creación de Action Creators.
+3)Exportación de los tipos de acciones.
+*/
+
+
+//1)Definición de tipos para las acciones (TS): Login y Adverts
 
 type AuthLogin = {
     type: "auth/login";
@@ -10,8 +18,11 @@ type AuthLogout = {
     type: "auth/logout";
   };
 
-/* Información sobre los anuncios. El store deberá manejar la obtención de tags disponibles, 
-de anuncios desde el API (listado y detalle), así como la creación y borrado de anuncios*/
+
+type TagsLoaded = {
+  type: "tags/loaded";
+  payload: string[]; // Un array de strings con los tags disponibles
+};
 
 type AdvertsLoaded = {
     type: "adverts/loaded";
@@ -24,13 +35,13 @@ type AdvertsCreated = {
   };
 
 type AdvertsDeleted = {
-    type: "adverts/created";
-    payload: Advert;
+    type: "adverts/deleted";
+    payload: string; // Usamos un ID en lugar de un objeto entero
   };
 
 
-//Funciones para despachar las acciones
-//En Redux, este tipo de función se llama Action Creator (creador de acciones)
+//2)Creación de Action Creators:Funciones para despachar las acciones
+
 
 export const authLogin = (): AuthLogin => ({
     type: "auth/login",
@@ -41,6 +52,27 @@ export const authLogout = (): AuthLogout => ({
   });
 
 
-//FALTAN LAS DE ADVERTS!!!
+export const tagsLoaded = (tags: string[]): TagsLoaded => ({
+    type: "tags/loaded",
+    payload: tags,
+  });
 
-  export type Actions = AuthLogin | AuthLogout | AdvertsLoaded | AdvertsCreated | AdvertsDeleted
+export const advertsLoaded = (adverts: Advert[]): AdvertsLoaded => ({
+    type: "adverts/loaded",
+    payload: adverts,
+  });
+  
+export const advertsCreated = (advert: Advert): AdvertsCreated => ({
+    type: "adverts/created",
+    payload: advert,
+  });
+  
+export const advertsDeleted = (advertId: string): AdvertsDeleted => ({
+    type: "adverts/deleted",
+    payload: advertId,
+  });
+  
+  
+//3)Exportación de los tipos de acciones.
+
+export type Actions = AuthLogin | AuthLogout | TagsLoaded | AdvertsLoaded | AdvertsCreated | AdvertsDeleted
