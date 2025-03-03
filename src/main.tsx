@@ -8,6 +8,7 @@ import { AuthProvider } from './pages/auth/AuthProvider.tsx';
 import { BrowserRouter } from 'react-router-dom';
 
 import configureStore from './store';
+import { Provider } from 'react-redux';
 
 const store = configureStore();
 
@@ -18,10 +19,12 @@ if (accessToken) {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <AuthProvider defaultIsLogged={!!accessToken}>
-        <App />
-      </AuthProvider>
-    </BrowserRouter>
+    <Provider store = { store }>
+      <BrowserRouter>
+        <AuthProvider defaultIsLogged={!!accessToken}>
+          <App />
+        </AuthProvider>
+      </BrowserRouter>
+    </Provider>
   </StrictMode>,
 );
