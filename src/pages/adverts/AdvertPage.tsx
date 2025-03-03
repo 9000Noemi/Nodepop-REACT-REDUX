@@ -1,34 +1,23 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { Advert } from './types';
-import { deleteAdvert, getAdvert } from './service-adverts';
-import { isApiClientError } from '../../api/client';
+import { useState } from 'react';
+import { deleteAdvert } from './service-adverts';
 import Page from '../../components/layout/Page';
 import ConfirmationDialog from '../../components/shared/ConfirmationDialog';
+import { useAppSelector } from '../../store';
+import { selectAdvert } from '../../store/selectors';
 import './AdvertPage.css';
+
 
 function AdvertPage() {
   const params = useParams();
   const navigate = useNavigate();
-  const [advert, setAdvert] = useState<Advert | null>(null);
+  const advert = useAppSelector(selectAdvert(params.advertId))
+
   // Estado para mostrar el mensaje de confirmacion
   const [showConfirmation, setShowConfirmation] = useState(false);
   // Estado para manejar el estado de carga (si es necesario)
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (params.advertId) {
-      getAdvert(params.advertId)
-        .then((advert) => setAdvert(advert))
-        .catch((error) => {
-          if (isApiClientError(error)) {
-            if (error.code === 'NOT_FOUND') {
-              navigate('/404');
-            }
-          }
-        });
-    }
-  }, [params.advertId, navigate]);
 
   const handleDelete = async () => {
     if (advert && params.advertId) {
