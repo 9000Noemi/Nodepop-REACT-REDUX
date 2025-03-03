@@ -1,11 +1,12 @@
 import type { ReactNode } from 'react';
 import { useAuth } from './context';
 import { Navigate, useLocation } from 'react-router-dom';
+import { useAppSelector } from '../../store';
 
 //Restringir el acceso a ciertas páginas de la aplicación solo a usuarios autenticados
 
 function RequireAuth({ children }: { children: ReactNode }) {
-  const { isLogged } = useAuth();
+  const isLogged = useAppSelector(state => state.auth);
   const location = useLocation();
 
   return isLogged ? (
