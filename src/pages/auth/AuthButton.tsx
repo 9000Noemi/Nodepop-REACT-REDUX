@@ -1,16 +1,21 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../components/shared/Button';
-import { useAuth } from '../../pages/auth/context';
 import { logout } from '../../pages/auth/service-auth';
 import ConfirmationDialog from '../../components/shared/ConfirmationDialog';
+import { useAppDispatch, useAppSelector } from '../../store';
+import { authLogout } from '../../store/actions';
 
 /*Componente que se encarga de mostrar un botón para el login o el logout 
 dependiendo de si el usuario está autenticado o no. 
 Además, al hacer clic en el botón de logout, se muestra un diálogo de confirmación*/
 
 export default function AuthButton() {
-  const { isLogged, onLogout } = useAuth();
+
+  const isLogged = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+
+  
   // Estado para mostrar el mensaje de confirmacion
   const [showConfirmation, setShowConfirmation] = useState(false);
   // Estado para manejar el estado de carga (si es necesario)
@@ -25,7 +30,7 @@ export default function AuthButton() {
   const handleConfirmLogout = async () => {
     setLoading(true); // Activar el estado de carga
     await logout(); // Llamada a la función de logout
-    onLogout(); // Actualiza el estado de autenticación
+    dispatch(authLogout()); // Despacha la acción de logout para actualizar el estado de autenticación
     setLoading(false); // Desactivar el estado de carga
     setShowConfirmation(false); // Cierra el mensaje de confirmación
   };
