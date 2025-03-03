@@ -5,6 +5,7 @@ import { logout } from '../../pages/auth/service-auth';
 import ConfirmationDialog from '../../components/shared/ConfirmationDialog';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { authLogout } from '../../store/actions';
+import { getIsLogged } from '../../store/selectors';
 
 /*Componente que se encarga de mostrar un botón para el login o el logout 
 dependiendo de si el usuario está autenticado o no. 
@@ -12,7 +13,7 @@ Además, al hacer clic en el botón de logout, se muestra un diálogo de confirm
 
 export default function AuthButton() {
 
-  const isLogged = useAppSelector((state) => state.auth);
+  const isLogged = useAppSelector(getIsLogged);
   const dispatch = useAppDispatch();
 
   
