@@ -7,6 +7,9 @@ import FormField from '../../components/shared/FormField';
 import AdvertItem from './Advert';
 import type { Advert } from './types';
 import './AdvertsPage.css';
+import { useAppDispatch, useAppSelector } from '../../store';
+import { advertsLoaded } from '../../store/actions';
+import { selectAdverts  } from '../../store/selectors';
 
 //Listado de anuncios
 
@@ -21,12 +24,10 @@ const EmptyList = () => (
 );
 
 function AdvertsPage() {
-  /*
-Llamada a la api, esperar respuesta, recoger datos y modificar estado del componente para que se repinte
-*/
 
-  //Estado donde meter los anuncios: iniciar useState con un array vacio porque su respuesta es un array
-  const [adverts, setAdverts] = useState<Advert[]>([]);
+  // Conectar con el estado de Redux para obtener los anuncios
+  const adverts = useAppSelector(selectAdverts ); 
+  const dispatch = useAppDispatch();
 
   //Estados para filtros de name y all, sell o buy
   const [nameToFilter, setNameToFilter] = useState('');
@@ -34,10 +35,13 @@ Llamada a la api, esperar respuesta, recoger datos y modificar estado del compon
 
   //Cuando el componente AdvertsPage se monta, ejecuta el useEffect
   useEffect(() => {
-    getAdvertList().then((response) => {
-      setAdverts(response);
-    });
-  }, []);
+    // Llamada a la API para obtener los anuncios
+    async function getAdverts() {
+      const advertsFromAPI = await getAdvertList();
+      dispatch(advertsLoaded(advertsFromAPI));  // Despachamos los anuncios cargados a Redux
+    }
+    getAdverts();
+  }, [dispatch]);
 
   //Para el filtro por nombre
   const handleSearch = (
