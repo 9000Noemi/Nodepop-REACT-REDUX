@@ -1,7 +1,7 @@
 import { Advert } from '../pages/adverts/types';
 import { Actions } from './actions';
 
-type State = {
+export type State = {
   auth: boolean;
   adverts: Advert[];
   tags: string[];
