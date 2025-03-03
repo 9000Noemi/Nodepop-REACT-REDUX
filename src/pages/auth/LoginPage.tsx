@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { login } from './service-auth';
-import { useAuth } from './context';
 import Button from '../../components/shared/Button';
 import FormField from '../../components/shared/FormField';
 
@@ -10,6 +9,8 @@ import { isApiClientError } from '../../api/client';
 import { ApiClientError } from '../../api/error';
 
 import './LoginPage.css';
+import { useAppDispatch } from '../../store';
+import { authLogin } from '../../store/actions';
 
 function LoginPage() {
   //Estados para controlar los inputs
@@ -19,7 +20,7 @@ function LoginPage() {
   // Estado para el checkbox
   const [rememberMe, setRememberMe] = useState(false);
 
-  const { onLogin } = useAuth();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const [error, setError] = useState<ApiClientError | null>(null);
@@ -39,7 +40,7 @@ function LoginPage() {
       );
 
       console.log(response);
-      onLogin();
+      dispatch(authLogin());
 
       //Una vez logado el usuario, le enviamos al link al que habia intentado entrar (con location)
       const to = location.state?.from ?? '/';
