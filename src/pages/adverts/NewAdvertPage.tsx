@@ -22,8 +22,7 @@ function NewAdvertPageForm() {
   //Manejar el estado del array de tags
   const [tagsArray, setTagsArray] = useState<string[] | null>(null);
 
-  //Para Redux
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch() //Para Redux
 
   /*Ejecutar una función asíncrona (fetchTags) cuando el componente se monta ([] como dependencia
      significa que solo se ejecuta una vez)*/
