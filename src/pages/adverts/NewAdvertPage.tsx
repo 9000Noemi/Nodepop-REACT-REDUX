@@ -6,9 +6,9 @@ import { NewAdvert } from './types';
 import { isApiClientError } from '../../api/client';
 import FormField from '../../components/shared/FormField';
 import Page from '../../components/layout/Page';
-import './NewAdvertPage.css';
 import { useAppDispatch } from '../../store';
-import { advertsCreated } from '../../store/actions'
+import { advertsCreated, tagsLoaded } from '../../store/actions'
+import './NewAdvertPage.css';
 
 function NewAdvertPageForm() {
   const [advert, setAdvert] = useState<NewAdvert>({
@@ -22,7 +22,7 @@ function NewAdvertPageForm() {
   //Manejar el estado del array de tags
   const [tagsArray, setTagsArray] = useState<string[] | null>(null);
 
-  const dispatch = useAppDispatch() //Para Redux
+  const dispatch = useAppDispatch(); //Para Redux
 
   /*Ejecutar una función asíncrona (fetchTags) cuando el componente se monta ([] como dependencia
      significa que solo se ejecuta una vez)*/
@@ -33,10 +33,12 @@ function NewAdvertPageForm() {
       const tags = await getTags();
       //actualizar el estado con setTagsArray(tags)
       setTagsArray(tags);
+      // Despachar la acción de tagsLoaded con la lista de tags obtenida
+      dispatch(tagsLoaded(tags));
     };
 
     fetchTags();
-  }, []);
+  }, [dispatch]);
 
   const navigate = useNavigate();
 
