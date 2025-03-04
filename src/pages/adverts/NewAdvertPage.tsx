@@ -7,6 +7,8 @@ import { isApiClientError } from '../../api/client';
 import FormField from '../../components/shared/FormField';
 import Page from '../../components/layout/Page';
 import './NewAdvertPage.css';
+import { useAppDispatch } from '../../store';
+import { advertsCreated } from '../../store/actions'
 
 function NewAdvertPageForm() {
   const [advert, setAdvert] = useState<NewAdvert>({
@@ -19,6 +21,9 @@ function NewAdvertPageForm() {
 
   //Manejar el estado del array de tags
   const [tagsArray, setTagsArray] = useState<string[] | null>(null);
+
+  //Para Redux
+  const dispatch = useAppDispatch()
 
   /*Ejecutar una función asíncrona (fetchTags) cuando el componente se monta ([] como dependencia
      significa que solo se ejecuta una vez)*/
@@ -53,6 +58,8 @@ function NewAdvertPageForm() {
     try {
       //Llamada a la función createAdvert
       const createdAdvert = await createAdvert(formData);
+      //Redux: Despachar la acción de crear un anuncio a la que le pasamos el anuncio que acabamos de crear
+      dispatch(advertsCreated(createdAdvert))
       //Si se crea el anuncio redirige a la pagina del detalle del mismo
       navigate(`/adverts/${createdAdvert.id}`);
       //Si ocurre un error:
