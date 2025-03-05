@@ -6,13 +6,14 @@ import Button from '../../components/shared/Button';
 import FormField from '../../components/shared/FormField';
 
 import { isApiClientError } from '../../api/client';
-import { ApiClientError } from '../../api/error';
 
 import './LoginPage.css';
-import { useAppDispatch } from '../../store';
-import { authLogin } from '../../store/actions';
+import { useAppDispatch, useAppSelector } from '../../store';
+import { authLoginFulfilled, authLoginPending, authLoginRejected, uiResetError } from '../../store/actions';
+import { getUi } from '../../store/selectors';
 
-function LoginPage() {
+
+export default function LoginPage() {
   //Estados para controlar los inputs
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,16 +22,16 @@ function LoginPage() {
   const [rememberMe, setRememberMe] = useState(false);
 
   const dispatch = useAppDispatch();
+  const { pending, error } = useAppSelector(getUi);
+  
   const location = useLocation();
   const navigate = useNavigate();
-  const [error, setError] = useState<ApiClientError | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
-      setIsLoading(true);
+      dispatch(authLoginPending());
       const response = await login(
         {
           email,
@@ -40,18 +41,16 @@ function LoginPage() {
       );
 
       console.log(response);
-      dispatch(authLogin());
+      dispatch(authLoginFulfilled());
 
       //Una vez logado el usuario, le enviamos al link al que habia intentado entrar (con location)
       const to = location.state?.from ?? '/';
       navigate(to, { replace: true });
     } catch (error) {
       if (isApiClientError(error)) {
-        setError(error);
+        dispatch(authLoginRejected(error));
       }
-    } finally {
-      setIsLoading(false);
-    }
+    } 
   };
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +67,7 @@ function LoginPage() {
     setRememberMe(event.target.checked);
   };
 
-  const isDisabled = !email || !password || isLoading;
+  const isDisabled = !email || !password || pending;
 
   return (
     <div className="loginPage">
@@ -108,7 +107,10 @@ function LoginPage() {
         </Button>
 
         {error && (
-          <div className="loginPage-error" onClick={() => setError(null)}>
+        <div
+          className="loginPage-error"
+          onClick={() => dispatch(uiResetError())}
+        >
             {error.message}
           </div>
         )}
@@ -117,4 +119,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+

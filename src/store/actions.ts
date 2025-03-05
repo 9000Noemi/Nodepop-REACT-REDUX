@@ -7,20 +7,39 @@ Acciones para manejar el estado global de la aplicacion:
 3)Exportación de los tipos de acciones.
 */
 
-//1)Definición de tipos para las acciones (TS): Login y Adverts
+/*
+1)Definición de tipos para las acciones (TS): Login y Adverts
+*/
 
-type AuthLogin = {
-  type: 'auth/login';
+//Login: pending, fulfilled y rejected
+
+type AuthLoginPending = {
+  type: "auth/login/pending";
 };
+
+type AuthLoginFulfilled = {
+  type: "auth/login/fulfilled";
+};
+
+type AuthLoginRejected = {
+  type: "auth/login/rejected";
+  payload: Error;
+};
+
+//Logout
 
 type AuthLogout = {
   type: 'auth/logout';
 };
 
+//Tags
+
 type TagsLoaded = {
   type: 'tags/loaded';
   payload: string[]; // Un array de strings con los tags disponibles
 };
+
+//Adverts
 
 type AdvertsLoaded = {
   type: 'adverts/loaded';
@@ -34,14 +53,28 @@ type AdvertsCreated = {
 
 type AdvertsDeleted = {
   type: 'adverts/deleted';
-  payload: number; // Usamos un ID en lugar de un objeto entero
+  payload: number; // ID
+};
+
+type UiResetError = {
+  type: "ui/reset-error";
 };
 
 //2)Creación de Action Creators:Funciones para despachar las acciones
 
-export const authLogin = (): AuthLogin => ({
-  type: 'auth/login',
+export const authLoginPending = (): AuthLoginPending => ({
+  type: "auth/login/pending",
 });
+
+export const authLoginFulfilled = (): AuthLoginFulfilled => ({
+  type: "auth/login/fulfilled",
+});
+
+export const authLoginRejected = (error: Error): AuthLoginRejected => ({
+  type: "auth/login/rejected",
+  payload: error,
+});
+
 
 export const authLogout = (): AuthLogout => ({
   type: 'auth/logout',
@@ -67,12 +100,19 @@ export const advertsDeleted = (advertId: number): AdvertsDeleted => ({
   payload: advertId,
 });
 
+export const uiResetError = (): UiResetError => ({
+  type: "ui/reset-error",
+});
+
 //3)Exportación de los tipos de acciones.
 
 export type Actions =
-  | AuthLogin
+  | AuthLoginPending
+  | AuthLoginFulfilled
+  | AuthLoginRejected
   | AuthLogout
   | TagsLoaded
   | AdvertsLoaded
   | AdvertsCreated
-  | AdvertsDeleted;
+  | AdvertsDeleted
+  | UiResetError

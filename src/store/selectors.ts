@@ -6,3 +6,5 @@ export const selectAdverts  = (state: RootState) => state.adverts;
 
 export const selectAdvert = (advertId?: string) => (state: RootState) =>
     state.adverts.find((advert) => advert.id === Number(advertId));
+
+export const getUi = (state: RootState) => state.ui;

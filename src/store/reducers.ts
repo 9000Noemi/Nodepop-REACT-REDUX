@@ -5,6 +5,10 @@ export type State = {
   auth: boolean;
   adverts: Advert[];
   tags: string[];
+  ui:{
+    pending: boolean;
+    error: Error | null;
+  }
 };
 
 // Estado inicial
@@ -12,6 +16,10 @@ const defaultState: State = {
   auth: false,
   adverts: [],
   tags: [],
+  ui: {
+    pending: false,
+    error:null
+  }
 };
 
 // Reducer de autenticación
@@ -20,7 +28,7 @@ export function auth(
   action: Actions,
 ): State['auth'] {
   switch (action.type) {
-    case 'auth/login':
+    case 'auth/login/fulfilled':
       return true;
     case 'auth/logout':
       return false;
@@ -57,6 +65,22 @@ export function tags(
   switch (action.type) {
     case 'tags/loaded':
       return action.payload;
+    default:
+      return state;
+  }
+}
+
+// Reducer de ui  
+export function ui(state = defaultState.ui, action: Actions): State["ui"] {
+  switch (action.type) {
+    case "ui/reset-error":
+      return { ...state, error: null };
+    case "auth/login/pending":
+      return { pending: true, error: null };
+    case "auth/login/fulfilled":
+      return { pending: false, error: null };
+    case "auth/login/rejected":
+      return { pending: false, error: action.payload };
     default:
       return state;
   }
