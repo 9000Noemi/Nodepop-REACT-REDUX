@@ -7,16 +7,20 @@ import FormField from '../../components/shared/FormField';
 
 import { isApiClientError } from '../../api/client';
 
-import './LoginPage.css';
 import { useAppDispatch, useAppSelector } from '../../store';
-import { authLoginFulfilled, authLoginPending, authLoginRejected, uiResetError } from '../../store/actions';
+import { authLogin, uiResetError } from '../../store/actions';
 import { getUi } from '../../store/selectors';
+
+import './LoginPage.css';
 
 
 export default function LoginPage() {
+  
   //Estados para controlar los inputs
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [credentials, setCredentials] = useState({
+    email: '',
+    password: '',
+  });
 
   // Estado para el checkbox
   const [rememberMe, setRememberMe] = useState(false);
@@ -27,38 +31,14 @@ export default function LoginPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    try {
-      dispatch(authLoginPending());
-      const response = await login(
-        {
-          email,
-          password,
-        },
-        rememberMe,
-      );
-
-      console.log(response);
-      dispatch(authLoginFulfilled());
-
-      //Una vez logado el usuario, le enviamos al link al que habia intentado entrar (con location)
-      const to = location.state?.from ?? '/';
-      navigate(to, { replace: true });
-    } catch (error) {
-      if (isApiClientError(error)) {
-        dispatch(authLoginRejected(error));
-      }
-    } 
-  };
+  // Manejadores de cambio de los inputs
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
+    setCredentials((prev) => ({ ...prev, email: event.target.value }));
   };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
+    setCredentials((prev) => ({ ...prev, password: event.target.value }));
   };
 
   const handleRememberMeChange = (
@@ -67,7 +47,22 @@ export default function LoginPage() {
     setRememberMe(event.target.checked);
   };
 
-  const isDisabled = !email || !password || pending;
+  //Envío del formulario
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    // Despachar la acción para manejar el login
+     dispatch(authLogin(credentials));
+
+    //Una vez logado el usuario, le enviamos al link al que habia intentado entrar (con location)
+      const to = location.state?.from ?? '/';
+      navigate(to, { replace: true });
+  };
+
+  
+
+  const isDisabled = !credentials.email || !credentials.password || pending;
 
   return (
     <div className="loginPage">
@@ -77,14 +72,14 @@ export default function LoginPage() {
           type="text"
           name="email"
           label="Email"
-          value={email}
+          value={credentials.email}
           onChange={handleEmailChange}
         />
         <FormField
           type="password"
           name="password"
           label="Password"
-          value={password}
+          value={credentials.password}
           onChange={handlePasswordChange}
         />
 

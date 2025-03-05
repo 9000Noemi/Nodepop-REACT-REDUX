@@ -1,4 +1,9 @@
+import { ThunkAction } from "redux-thunk";
+import { isApiClientError } from "../api/client";
+import { login } from "../pages/auth/service-auth";
+import { Credentials } from '../pages/auth/types';
 import { Advert } from '../pages/adverts/types';
+import { AppThunk, RootState } from ".";
 
 /*
 Acciones para manejar el estado global de la aplicacion:
@@ -74,6 +79,22 @@ export const authLoginRejected = (error: Error): AuthLoginRejected => ({
   type: "auth/login/rejected",
   payload: error,
 });
+
+
+export function authLogin(credentials: Credentials): AppThunk<Promise<void>> {
+  return async function (dispatch) {
+    dispatch(authLoginPending());
+    try {
+      await login(credentials, true); //REVISAR ESTE TRUE
+      dispatch(authLoginFulfilled());
+    } catch (error) {
+      if (isApiClientError(error)) {
+        dispatch(authLoginRejected(error));
+      }
+      throw error;
+    }
+  };
+}
 
 
 export const authLogout = (): AuthLogout => ({
