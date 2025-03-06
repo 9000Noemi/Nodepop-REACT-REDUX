@@ -81,11 +81,11 @@ export const authLoginRejected = (error: Error): AuthLoginRejected => ({
 });
 
 
-export function authLogin(credentials: Credentials): AppThunk<Promise<void>> {
+export function authLogin(credentials: Credentials, rememberMe: boolean): AppThunk<Promise<void>> {
   return async function (dispatch) {
     dispatch(authLoginPending());
     try {
-      await login(credentials, true); //REVISAR ESTE TRUE
+      await login(credentials, rememberMe); 
       dispatch(authLoginFulfilled());
     } catch (error) {
       if (isApiClientError(error)) {

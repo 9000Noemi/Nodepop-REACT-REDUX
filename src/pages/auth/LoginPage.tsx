@@ -53,7 +53,7 @@ export default function LoginPage() {
     event.preventDefault();
 
     // Despachar la acción para manejar el login
-     dispatch(authLogin(credentials));
+     dispatch(authLogin(credentials,rememberMe));
 
     //Una vez logado el usuario, le enviamos al link al que habia intentado entrar (con location)
       const to = location.state?.from ?? '/';
