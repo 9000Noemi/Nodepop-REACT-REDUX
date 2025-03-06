@@ -4,10 +4,10 @@ import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import storage from './utils/storage.ts';
 import { setAuthorizationHeader } from './api/client.tsx';
-import { BrowserRouter } from 'react-router-dom';
 
 import configureStore from './store';
 import { Provider } from 'react-redux';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 
 
@@ -16,14 +16,13 @@ if (accessToken) {
   setAuthorizationHeader(accessToken);
 }
 
-const store = configureStore({ auth: !!accessToken });
+const router = createBrowserRouter([{ path: "*", element: <App /> }]);
+const store = configureStore({ auth: !!accessToken }, router);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store = { store }>
-      <BrowserRouter>
-        <App /> 
-      </BrowserRouter>
+      <RouterProvider router={router} />
     </Provider>
   </StrictMode>,
 );

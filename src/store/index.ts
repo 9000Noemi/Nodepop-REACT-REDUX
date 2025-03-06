@@ -5,17 +5,25 @@ import type { State } from "./reducers";
 import { composeWithDevTools } from "@redux-devtools/extension";
 import * as thunk from "redux-thunk";
 import { Actions } from "./actions";
+import { createBrowserRouter } from "react-router-dom";
 
+type Router = ReturnType<typeof createBrowserRouter>;
 
-export default function configureStore(preloadedState: Partial<State>) {
+type ExtraArgument = {
+  router: Router;
+};
+
+export default function configureStore(preloadedState: Partial<State>, router: Router,) {
     const rootReducer = combineReducers(reducers);
     const store = createStore(
       rootReducer, 
       preloadedState as never,
       composeWithDevTools(
-        applyMiddleware(thunk.withExtraArgument<State, Actions>()),
-      ),
-      );
+        applyMiddleware(
+          thunk.withExtraArgument<State, Actions, ExtraArgument>({
+            router
+          
+          }))))
     return store;
   }
 
@@ -34,6 +42,6 @@ export const useAppSelector = useSelector.withTypes<RootState>();
 export type AppThunk<ReturnType = void> = thunk.ThunkAction<
   ReturnType,
   RootState,
-  undefined,
+  ExtraArgument,
   Actions
 >;

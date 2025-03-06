@@ -1,13 +1,13 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import Button from '../../components/shared/Button';
 import { createAdvert, getTags } from './service-adverts';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { NewAdvert } from './types';
 import { isApiClientError } from '../../api/client';
 import FormField from '../../components/shared/FormField';
 import Page from '../../components/layout/Page';
 import { useAppDispatch } from '../../store';
-import { advertsCreated, tagsLoaded } from '../../store/actions'
+import { advertsCreate, tagsLoaded } from '../../store/actions'
 import './NewAdvertPage.css';
 
 function NewAdvertPageForm() {
@@ -23,6 +23,7 @@ function NewAdvertPageForm() {
   const [tagsArray, setTagsArray] = useState<string[] | null>(null);
 
   const dispatch = useAppDispatch(); //Para Redux
+  const router = useLocation()
 
   /*Ejecutar una función asíncrona (fetchTags) cuando el componente se monta ([] como dependencia
      significa que solo se ejecuta una vez)*/
@@ -34,7 +35,7 @@ function NewAdvertPageForm() {
       //actualizar el estado con setTagsArray(tags)
       setTagsArray(tags);
       // Despachar la acción de tagsLoaded con la lista de tags obtenida
-      dispatch(tagsLoaded(tags));
+      dispatch(tagsLoaded());
     };
 
     fetchTags();
@@ -57,12 +58,8 @@ function NewAdvertPageForm() {
       formData.append('photo', advert.photo);
     }
     try {
-      //Llamada a la función createAdvert
-      const createdAdvert = await createAdvert(formData);
       //Redux: Despachar la acción de crear un anuncio a la que le pasamos el anuncio que acabamos de crear
-      dispatch(advertsCreated(createdAdvert))
-      //Si se crea el anuncio redirige a la pagina del detalle del mismo
-      navigate(`/adverts/${createdAdvert.id}`);
+      dispatch(advertsCreate(formData))
       //Si ocurre un error:
     } catch (error) {
       if (isApiClientError(error)) {

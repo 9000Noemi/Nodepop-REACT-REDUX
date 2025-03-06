@@ -1,11 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
-import { deleteAdvert } from './service-adverts';
 import Page from '../../components/layout/Page';
 import ConfirmationDialog from '../../components/shared/ConfirmationDialog';
 import { useAppSelector, useAppDispatch  } from '../../store';
 import { selectAdvert } from '../../store/selectors';
-import { advertsDeleted } from '../../store/actions';
+import { advertsDelete } from '../../store/actions';
 import './AdvertPage.css';
 
 
@@ -25,9 +24,8 @@ function AdvertPage() {
     if (advert && params.advertId) {
       setLoading(true);
       try {
-        await deleteAdvert(params.advertId);
         // Despachar la acción de eliminación de anuncio para actualizar el estado global
-        dispatch(advertsDeleted(Number(params.advertId))); // Despachamos la acción con el ID del anuncio eliminado
+        dispatch(advertsDelete(Number(params.advertId))); // Despachamos la acción con el ID del anuncio eliminado
         navigate('/adverts');
       } catch (error) {
         console.log('Error deleting advert:', error);
