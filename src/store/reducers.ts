@@ -3,7 +3,7 @@ import { Actions } from './actions';
 
 export type State = {
   auth: boolean;
-  adverts: Advert[];
+  adverts: Advert[]| null;
   tags: string[];
   ui:{
     pending: boolean;
@@ -14,7 +14,7 @@ export type State = {
 // Estado inicial
 const defaultState: State = {
   auth: false,
-  adverts: [],
+  adverts: null,
   tags: [],
   ui: {
     pending: false,
@@ -43,15 +43,16 @@ export function adverts(
   action: Actions,
 ): State['adverts'] {
   switch (action.type) {
-    case 'adverts/loaded':
+    case 'adverts/loaded/fulfilled':
       return action.payload;
 
     case 'adverts/created':
-      return [...state, action.payload];
+      return [...( state ?? []) , action.payload];
 
     
 case 'adverts/deleted':
-      return state.filter(advert => advert.id !== action.payload);
+    // Devolver un array vacío si state es null
+      return (state??[]).filter(advert => advert.id !== action.payload);
     default:
       return state;
   }
@@ -63,7 +64,7 @@ export function tags(
   action: Actions,
 ): State['tags'] {
   switch (action.type) {
-    case 'tags/loaded':
+    case 'tags/loaded/fulfilled':
       return action.payload;
     default:
       return state;

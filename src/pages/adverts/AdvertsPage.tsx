@@ -35,12 +35,7 @@ function AdvertsPage() {
 
   //Cuando el componente AdvertsPage se monta, ejecuta el useEffect
   useEffect(() => {
-    // Llamada a la API para obtener los anuncios
-    async function getAdverts() {
-      const advertsFromAPI = await getAdvertList();
-      dispatch(advertsLoaded(advertsFromAPI));  // Despachamos los anuncios cargados a Redux
-    }
-    getAdverts();
+      dispatch(advertsLoaded());  // Despachamos los anuncios cargados a Redux
   }, [dispatch]);
 
   //Para el filtro por nombre

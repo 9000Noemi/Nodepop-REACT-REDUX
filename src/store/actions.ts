@@ -1,9 +1,10 @@
-import { ThunkAction } from "redux-thunk";
 import { isApiClientError } from "../api/client";
 import { login } from "../pages/auth/service-auth";
 import { Credentials } from '../pages/auth/types';
 import { Advert } from '../pages/adverts/types';
-import { AppThunk, RootState } from ".";
+import { AppThunk } from ".";
+import { getAdvertList, getTags } from "../pages/adverts/service-adverts";
+import { adverts } from "./reducers";
 
 /*
 Acciones para manejar el estado global de la aplicacion:
@@ -37,18 +38,36 @@ type AuthLogout = {
   type: 'auth/logout';
 };
 
-//Tags
+// Tags Loaded: pending, fulfilled, rejected
+type TagsLoadedPending = {
+  type: 'tags/loaded/pending';
+};
 
-type TagsLoaded = {
-  type: 'tags/loaded';
+type TagsLoadedFulfilled = {
+  type: 'tags/loaded/fulfilled';
   payload: string[]; // Un array de strings con los tags disponibles
 };
 
-//Adverts
+type TagsLoadedRejected = {
+  type: 'tags/loaded/rejected';
+  payload: Error;
+};
 
-type AdvertsLoaded = {
-  type: 'adverts/loaded';
+//Adverts Loaded: pending, fulfilled y rejected
+
+type AdvertsLoadedPending = {
+  type: 'adverts/loaded/pending';
   payload: Advert[];
+};
+
+type AdvertsLoadedFulfilled = {
+  type: 'adverts/loaded/fulfilled';
+  payload: Advert[];
+};
+
+type AdvertsLoadedRejected = {
+  type: 'adverts/loaded/rejected';
+  payload: Error;
 };
 
 type AdvertsCreated = {
@@ -65,7 +84,10 @@ type UiResetError = {
   type: "ui/reset-error";
 };
 
-//2)Creación de Action Creators:Funciones para despachar las acciones
+
+/*
+2)Creación de Action Creators:Funciones para despachar las acciones
+*/
 
 export const authLoginPending = (): AuthLoginPending => ({
   type: "auth/login/pending",
@@ -80,7 +102,7 @@ export const authLoginRejected = (error: Error): AuthLoginRejected => ({
   payload: error,
 });
 
-
+//thunk de login
 export function authLogin(credentials: Credentials, rememberMe: boolean): AppThunk<Promise<void>> {
   return async function (dispatch) {
     dispatch(authLoginPending());
@@ -96,20 +118,84 @@ export function authLogin(credentials: Credentials, rememberMe: boolean): AppThu
   };
 }
 
-
+//Logout
 export const authLogout = (): AuthLogout => ({
   type: 'auth/logout',
 });
 
-export const tagsLoaded = (tags: string[]): TagsLoaded => ({
-  type: 'tags/loaded',
+//Tags
+export const tagsLoadedPending = (): TagsLoadedPending => ({
+  type: 'tags/loaded/pending',
+});
+
+export const tagsLoadedFulfilled = (tags: string[]): TagsLoadedFulfilled => ({
+  type: 'tags/loaded/fulfilled',
   payload: tags,
 });
 
-export const advertsLoaded = (adverts: Advert[]): AdvertsLoaded => ({
-  type: 'adverts/loaded',
+export const tagsLoadedRejected = (error: Error): TagsLoadedRejected => ({
+  type: 'tags/loaded/rejected',
+  payload: error,
+});
+
+//thunk de tags
+export function tagsLoaded(): AppThunk<Promise<void>> {
+  return async function (dispatch) {
+    dispatch(tagsLoadedPending()); 
+    try {
+      const tags = await getTags();
+      dispatch(tagsLoadedFulfilled(tags)); 
+    } catch (error) {
+      if (isApiClientError(error)) {
+        dispatch(tagsLoadedRejected(error)); 
+      } 
+      throw error;
+    }
+  };
+}
+
+
+//AdvertsLoaded:pending, fulfilled, rejected y thunk
+
+export const advertsLoadedPending = (adverts: Advert[]): AdvertsLoadedPending => ({
+  type: 'adverts/loaded/pending',
   payload: adverts,
 });
+
+export const advertsLoadedFulfilled = (adverts: Advert[]): AdvertsLoadedFulfilled => ({
+  type: 'adverts/loaded/fulfilled',
+  payload: adverts,
+});
+
+export const advertsLoadedRejected = (error: Error): AdvertsLoadedRejected => ({
+  type: 'adverts/loaded/rejected',
+  payload: error,
+});
+
+//thunk de advertsLoaded
+export function advertsLoaded(): AppThunk<Promise<void>> {
+  return async function (dispatch, getState) {
+    const state = getState();
+    
+    //Si los anuncios ya estan cargados en el estado (array ya inicializado) no hacer nada
+    if (state.adverts) {
+      return;
+    }
+     // Si no hay anuncios cargados, procedere a cargarlos
+     try {
+      dispatch(advertsLoadedPending([]));//usar array vacío mientras carga
+      const adverts = await getAdvertList();
+      dispatch(advertsLoadedFulfilled(adverts));
+      
+    } catch (error) {
+      if (isApiClientError(error)) {
+        dispatch(advertsLoadedRejected(error));
+      }
+      throw error;
+    }
+  };
+}
+
 
 export const advertsCreated = (advert: Advert): AdvertsCreated => ({
   type: 'adverts/created',
@@ -132,8 +218,12 @@ export type Actions =
   | AuthLoginFulfilled
   | AuthLoginRejected
   | AuthLogout
-  | TagsLoaded
-  | AdvertsLoaded
+  | TagsLoadedPending
+  | TagsLoadedFulfilled
+  | TagsLoadedRejected
+  | AdvertsLoadedPending
+  | AdvertsLoadedFulfilled
+  | AdvertsLoadedRejected
   | AdvertsCreated
   | AdvertsDeleted
   | UiResetError
