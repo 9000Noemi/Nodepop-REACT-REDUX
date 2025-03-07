@@ -3,8 +3,7 @@ import { login } from "../pages/auth/service-auth";
 import { Credentials } from '../pages/auth/types';
 import { Advert } from '../pages/adverts/types';
 import { AppThunk } from ".";
-import { createAdvert, deleteAdvert, getAdvertList, getTags } from "../pages/adverts/service-adverts";
-import { adverts } from "./reducers";
+import { createAdvert, deleteAdvert, getAdvert, getAdvertList, getTags } from "../pages/adverts/service-adverts";
 
 /*
 Acciones para manejar el estado global de la aplicacion:
@@ -102,6 +101,24 @@ type AdvertsDeletedRejected = {
   type: 'adverts/deleted/rejected';
   payload: Error;
 };
+
+// AdDetail: pending, fulfilled y rejected
+
+type AdDetailPending = {
+  type: 'ad-detail/pending';
+};
+
+type AdDetailFulfilled = {
+  type: 'ad-detail/fulfilled';
+  payload: Advert; // El detalle del anuncio que recibimos
+};
+
+type AdDetailRejected = {
+  type: 'ad-detail/rejected';
+  payload: Error;
+};
+
+
 
 //UI
 
@@ -210,7 +227,7 @@ export function advertsLoaded(): AppThunk<Promise<void>> {
     if (state.adverts) {
       return;
     }
-     // Si no hay anuncios cargados, procedere a cargarlos
+     // Si no hay anuncios cargados, proceder a cargarlos
      try {
       dispatch(advertsLoadedPending([]));//usar array vacío mientras carga
       const adverts = await getAdvertList();
@@ -291,6 +308,39 @@ export function advertsDelete(advertId:number): AppThunk<Promise<void>> {
 }
 
 
+//AdDetail:pending, fulfilled, rejected y thunk
+
+export const adDetailPending = (): AdDetailPending => ({
+  type: 'ad-detail/pending',
+});
+
+export const adDetailFulfilled = (advert: Advert): AdDetailFulfilled => ({
+  type: 'ad-detail/fulfilled',
+  payload: advert,
+});
+
+export const adDetailRejected = (error: Error): AdDetailRejected => ({
+  type: 'ad-detail/rejected',
+  payload: error,
+});
+
+export function advertDetail(advertId: number): AppThunk<Promise<void>> {
+  return async function (dispatch) {
+    dispatch(adDetailPending()); 
+
+    try {
+      const advert = await getAdvert(String(advertId));
+      dispatch(adDetailFulfilled(advert)); 
+    } catch (error) {
+      if (isApiClientError(error)) {
+        dispatch(adDetailRejected(error));  
+      }
+      throw error;  // Re-lanzamos el error para que sea manejado correctamente
+    }
+  };
+}
+
+
 export const uiResetError = (): UiResetError => ({
   type: "ui/reset-error",
 });
@@ -314,4 +364,7 @@ export type Actions =
   | AdvertsDeletedPending
   | AdvertsDeletedFulfilled
   | AdvertsDeletedRejected
+  | AdDetailPending     
+  | AdDetailFulfilled  
+  | AdDetailRejected
   | UiResetError

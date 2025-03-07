@@ -1,23 +1,32 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Page from '../../components/layout/Page';
 import ConfirmationDialog from '../../components/shared/ConfirmationDialog';
 import { useAppSelector, useAppDispatch  } from '../../store';
-import { selectAdvert } from '../../store/selectors';
-import { advertsDelete } from '../../store/actions';
+import { selectAdDetail } from '../../store/selectors';
+import { advertDetail, advertsDelete } from '../../store/actions';
 import './AdvertPage.css';
 
 
 function AdvertPage() {
   const params = useParams();
   const navigate = useNavigate();
-  const advert = useAppSelector(selectAdvert(params.advertId))
   const dispatch = useAppDispatch(); //Para Redux
+
+  // Accedemos a los detalles del anuncio desde Redux, usamos el selector selectAdDetail
+  const advert = useAppSelector(selectAdDetail(params.advertId)); 
+ 
 
   // Estado para mostrar el mensaje de confirmacion
   const [showConfirmation, setShowConfirmation] = useState(false);
   // Estado para manejar el estado de carga (si es necesario)
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {     
+    if (params.advertId) {
+      dispatch(advertDetail(Number(params.advertId)));
+    }
+  }, [dispatch, params.advertId]);
 
 
   const handleDelete = async () => {
@@ -25,7 +34,7 @@ function AdvertPage() {
       setLoading(true);
       try {
         // Despachar la acción de eliminación de anuncio para actualizar el estado global
-        dispatch(advertsDelete(Number(params.advertId))); // Despachamos la acción con el ID del anuncio eliminado
+        dispatch(advertsDelete(Number(params.advertId))); 
         navigate('/adverts');
       } catch (error) {
         console.log('Error deleting advert:', error);

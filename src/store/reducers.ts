@@ -5,6 +5,7 @@ export type State = {
   auth: boolean;
   adverts: Advert[]| null
   tags: string[];
+  adDetail: [],
   ui:{
     pending: boolean;
     error: Error | null;
@@ -14,8 +15,9 @@ export type State = {
 // Estado inicial
 const defaultState: State = {
   auth: false,
-  adverts: [],
+  adverts: null,
   tags: [],
+  adDetail: [],
   ui: {
     pending: false,
     error:null
@@ -69,6 +71,24 @@ export function tags(
       return state;
   }
 }
+
+// Reducer del detalle del anuncio               REVISAR!!!!!!!!!!
+export function adDetail(
+  state = defaultState.adverts,  // Inicializa con los detalles de un anuncio vacío
+  action: Actions,
+): State['adverts'] {  // El tipo del estado será el mismo que el de los anuncios
+  switch (action.type) {
+    case 'ad-detail/pending':
+      return null;  // Establecemos el estado en null cuando se está cargando
+    case 'ad-detail/fulfilled':
+      return [action.payload];  
+    case 'ad-detail/rejected':
+      return [];  
+    default:
+      return state;
+  }
+}
+
 
 // Reducer de ui  
 export function ui(state = defaultState.ui, action: Actions): State["ui"] {
