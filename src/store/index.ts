@@ -20,7 +20,7 @@ export default function configureStore(preloadedState: Partial<State>, router: R
       preloadedState as never,
       composeWithDevTools(
         applyMiddleware(
-          thunk.withExtraArgument<State, Actions, ExtraArgument>({
+          thunk.withExtraArgument<State, Actions, ExtraArgument>({  
             router
           
           }))))

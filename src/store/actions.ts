@@ -259,13 +259,13 @@ export const advertsCreatedRejected = (error: Error): AdvertsCreatedRejected => 
 });
 
 
-export function advertsCreate(advert: FormData): AppThunk<Promise<void>> {
-  return async function (dispatch, {router}) {
+export function advertsCreate(advert: FormData, navigate: (path: string)=> void): AppThunk<Promise<void>> {
+  return async function (dispatch) {
     dispatch(advertsCreatedPending());
     try {
       const newAdvert = await createAdvert(advert); 
       dispatch(advertsCreatedFulfilled(newAdvert));
-      await router.navigate(`/adverts/${newAdvert.id}`);
+      navigate(`/adverts/${newAdvert.id}`);
     } catch (error) {
       if (isApiClientError(error)) {
         dispatch(advertsCreatedRejected(error));

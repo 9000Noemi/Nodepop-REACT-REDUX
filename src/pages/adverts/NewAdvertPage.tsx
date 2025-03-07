@@ -23,7 +23,7 @@ function NewAdvertPageForm() {
   const [tagsArray, setTagsArray] = useState<string[] | null>(null);
 
   const dispatch = useAppDispatch(); //Para Redux
-  const router = useLocation()
+  const navigate = useNavigate();
 
   /*Ejecutar una función asíncrona (fetchTags) cuando el componente se monta ([] como dependencia
      significa que solo se ejecuta una vez)*/
@@ -41,7 +41,7 @@ function NewAdvertPageForm() {
     fetchTags();
   }, [dispatch]);
 
-  const navigate = useNavigate();
+ 
 
   //Gestionar el envío del formulario
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -59,7 +59,7 @@ function NewAdvertPageForm() {
     }
     try {
       //Redux: Despachar la acción de crear un anuncio a la que le pasamos el anuncio que acabamos de crear
-      dispatch(advertsCreate(formData))
+      dispatch(advertsCreate(formData, navigate))
       //Si ocurre un error:
     } catch (error) {
       if (isApiClientError(error)) {
