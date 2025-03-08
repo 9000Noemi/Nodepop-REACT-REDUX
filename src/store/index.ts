@@ -14,6 +14,26 @@ type ExtraArgument = {
   router: Router;
 };
 
+const failureRedirects = (router: Router) => (_store: any) => (next: any) => (action: any) => {
+  const result = next(action);
+
+  if (!action.type.endsWith("/rejected")) {
+    return result;
+  }
+
+  if (action.payload.code === "NOT_FOUND") {
+    return router.navigate("/404");
+  }
+
+  if (action.payload.code === "UNAUTHORIZED") {
+    return router.navigate("/login");
+  }
+
+  return result;
+};
+
+
+
 export default function configureStore(preloadedState: Partial<State>, router: Router,) {
     const rootReducer = combineReducers(reducers);
     const store = createStore(
@@ -23,8 +43,11 @@ export default function configureStore(preloadedState: Partial<State>, router: R
         applyMiddleware(
           thunk.withExtraArgument<State, Actions, ExtraArgument>({  
             router
-          
-          }))))
+          }),
+          failureRedirects(router),
+        )
+      )
+    )
     return store;
   }
 

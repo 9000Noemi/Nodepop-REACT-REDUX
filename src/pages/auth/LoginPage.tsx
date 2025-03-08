@@ -1,11 +1,7 @@
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 
-import { login } from './service-auth';
 import Button from '../../components/shared/Button';
 import FormField from '../../components/shared/FormField';
-
-import { isApiClientError } from '../../api/client';
 
 import { useAppDispatch, useAppSelector } from '../../store';
 import { authLogin, uiResetError } from '../../store/actions';
@@ -27,9 +23,6 @@ export default function LoginPage() {
 
   const dispatch = useAppDispatch();
   const { pending, error } = useAppSelector(getUi);
-  
-  const location = useLocation();
-  const navigate = useNavigate();
 
   // Manejadores de cambio de los inputs
 
@@ -55,12 +48,7 @@ export default function LoginPage() {
     // Despachar la acción para manejar el login
      dispatch(authLogin(credentials,rememberMe));
 
-    //Una vez logado el usuario, le enviamos al link al que habia intentado entrar (con location)
-      const to = location.state?.from ?? '/';
-      navigate(to, { replace: true });
   };
-
-  
 
   const isDisabled = !credentials.email || !credentials.password || pending;
 

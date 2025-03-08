@@ -32,7 +32,7 @@ export function auth(
   switch (action.type) {
     case 'auth/login/fulfilled':
       return true;
-    case 'auth/logout':
+    case 'auth/logout/fulfilled':
       return false;
     default:
       return state;

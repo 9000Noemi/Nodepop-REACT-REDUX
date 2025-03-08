@@ -1,5 +1,5 @@
 import { isApiClientError } from "../api/client";
-import { login } from "../pages/auth/service-auth";
+import { login, logout } from "../pages/auth/service-auth";
 import { Credentials } from '../pages/auth/types';
 import { Advert } from '../pages/adverts/types';
 import { AppThunk } from ".";
@@ -33,8 +33,8 @@ type AuthLoginRejected = {
 
 //Logout
 
-type AuthLogout = {
-  type: 'auth/logout';
+type AuthLogoutFulfilled = {
+  type: 'auth/logout/fulfilled';
 };
 
 // Tags Loaded: pending, fulfilled, rejected
@@ -147,11 +147,13 @@ export const authLoginRejected = (error: Error): AuthLoginRejected => ({
 });
 
 export function authLogin(credentials: Credentials, rememberMe: boolean): AppThunk<Promise<void>> {
-  return async function (dispatch) {
+  return async function (dispatch, _getState, { router }) {
     dispatch(authLoginPending());
     try {
       await login(credentials, rememberMe); 
       dispatch(authLoginFulfilled());
+      const to = router.state.location.state?.from ?? "/";
+      router.navigate(to, { replace: true });
     } catch (error) {
       if (isApiClientError(error)) {
         dispatch(authLoginRejected(error));
@@ -163,10 +165,21 @@ export function authLogin(credentials: Credentials, rememberMe: boolean): AppThu
 
 //Logout
 
-export const authLogout = (): AuthLogout => ({
-  type: 'auth/logout',
+export const authLogoutFulfilled = (): AuthLogoutFulfilled => ({
+  type: 'auth/logout/fulfilled',
 });
 
+export function authLogout(): AppThunk<Promise<void>> {
+  return async function (dispatch, _getState, {router}) {
+    try {
+    await logout();
+    dispatch(authLogoutFulfilled());
+    router.navigate("/login");
+  } catch (error){
+    throw error
+    }
+  }
+}
 
 //Tags: pending, fulfilled, rejected y thunk
 
@@ -222,7 +235,6 @@ export const advertsLoadedRejected = (error: Error): AdvertsLoadedRejected => ({
 export function advertsLoaded(): AppThunk<Promise<void>> {
   return async function (dispatch, getState) {
     const state = getState();
-    console.log(state)
     //Si los anuncios ya estan cargados en el estado (array ya inicializado) no hacer nada
     if (state.adverts) {
       return;
@@ -258,13 +270,13 @@ export const advertsCreatedRejected = (error: Error): AdvertsCreatedRejected => 
 });
 
 
-export function advertsCreate(advert: FormData, navigate: (path: string)=> void): AppThunk<Promise<void>> {
-  return async function (dispatch) {
+export function advertsCreate(advert: FormData): AppThunk<Promise<void>> {
+  return async function (dispatch, _getState, {router}) {
     dispatch(advertsCreatedPending());
     try {
       const newAdvert = await createAdvert(advert); 
       dispatch(advertsCreatedFulfilled(newAdvert));
-      navigate(`/adverts/${newAdvert.id}`);
+      router.navigate(`/adverts/${newAdvert.id}`);
     } catch (error) {
       if (isApiClientError(error)) {
         dispatch(advertsCreatedRejected(error));
@@ -292,11 +304,12 @@ export const advertsDeletedRejected = (error: Error): AdvertsDeletedRejected => 
 });
 
 export function advertsDelete(advertId:string): AppThunk<Promise<void>> {
-  return async function (dispatch) {
+  return async function (dispatch, _getState, {router}) {
     dispatch(advertsDeletedPending(advertId));
     try {
       const deletedAdvert = await deleteAdvert(advertId); 
       dispatch(advertsDeletedFulfilled(String(deletedAdvert.id)));
+      router.navigate('/adverts');
     } catch (error) {
       if (isApiClientError(error)) {
         dispatch(advertsDeletedRejected(error));
@@ -326,7 +339,6 @@ export const adDetailRejected = (error: Error): AdDetailRejected => ({
 export function advertDetail(advertId: string): AppThunk<Promise<void>> {
   return async function (dispatch) {
     dispatch(adDetailPending()); 
-
     try {
       const advert = await getAdvert(advertId);
       dispatch(adDetailFulfilled(advert)); 
@@ -350,7 +362,7 @@ export type Actions =
   | AuthLoginPending
   | AuthLoginFulfilled
   | AuthLoginRejected
-  | AuthLogout
+  | AuthLogoutFulfilled
   | TagsLoadedPending
   | TagsLoadedFulfilled
   | TagsLoadedRejected

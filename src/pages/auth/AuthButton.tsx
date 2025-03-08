@@ -30,7 +30,6 @@ export default function AuthButton() {
   // Función que se llama cuando el usuario confirma el logout
   const handleConfirmLogout = async () => {
     setLoading(true); // Activar el estado de carga
-    await logout(); // Llamada a la función de logout
     dispatch(authLogout()); // Despacha la acción de logout para actualizar el estado de autenticación
     setLoading(false); // Desactivar el estado de carga
     setShowConfirmation(false); // Cierra el mensaje de confirmación

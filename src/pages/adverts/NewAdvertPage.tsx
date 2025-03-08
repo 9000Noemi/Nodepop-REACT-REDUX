@@ -1,9 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import Button from '../../components/shared/Button';
-import { createAdvert, getTags } from './service-adverts';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { NewAdvert } from './types';
-import { isApiClientError } from '../../api/client';
 import FormField from '../../components/shared/FormField';
 import Page from '../../components/layout/Page';
 import { useAppDispatch } from '../../store';
@@ -20,10 +17,9 @@ function NewAdvertPageForm() {
   });
 
   //Manejar el estado del array de tags
-  const [tagsArray, setTagsArray] = useState<string[] | null>(null);
+  const [tagsArray] = useState<string[] | null>(null);
 
   const dispatch = useAppDispatch(); //Para Redux
-  const navigate = useNavigate();
 
   /*Ejecutar una función asíncrona (fetchTags) cuando el componente se monta ([] como dependencia
      significa que solo se ejecuta una vez)*/
@@ -31,9 +27,6 @@ function NewAdvertPageForm() {
   useEffect(() => {
     //fetchTags obtiene datos llamando a getTags(), que devuelve la lista de tags
     const fetchTags = async () => {
-      const tags = await getTags();
-      //actualizar el estado con setTagsArray(tags)
-      setTagsArray(tags);
       // Despachar la acción de tagsLoaded con la lista de tags obtenida
       dispatch(tagsLoaded());
     };
@@ -57,18 +50,9 @@ function NewAdvertPageForm() {
     if (advert.photo) {
       formData.append('photo', advert.photo);
     }
-    try {
+    
       //Redux: Despachar la acción de crear un anuncio a la que le pasamos el anuncio que acabamos de crear
-      dispatch(advertsCreate(formData, navigate))
-      //Si ocurre un error:
-    } catch (error) {
-      if (isApiClientError(error)) {
-        if (error.code === 'UNAUTHORIZED') {
-          navigate('/login');
-        }
-      }
-      console.log(error);
-    }
+    dispatch(advertsCreate(formData))
   };
 
   // Gestionar cambios en los campos del formulario: actualizar el estado con los inputs
