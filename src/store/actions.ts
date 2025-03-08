@@ -222,7 +222,7 @@ export const advertsLoadedRejected = (error: Error): AdvertsLoadedRejected => ({
 export function advertsLoaded(): AppThunk<Promise<void>> {
   return async function (dispatch, getState) {
     const state = getState();
-    
+    console.log(state)
     //Si los anuncios ya estan cargados en el estado (array ya inicializado) no hacer nada
     if (state.adverts) {
       return;
@@ -231,8 +231,7 @@ export function advertsLoaded(): AppThunk<Promise<void>> {
      try {
       dispatch(advertsLoadedPending([]));//usar array vacío mientras carga
       const adverts = await getAdvertList();
-      dispatch(advertsLoadedFulfilled(adverts));
-      
+      dispatch(advertsLoadedFulfilled(adverts));   
     } catch (error) {
       if (isApiClientError(error)) {
         dispatch(advertsLoadedRejected(error));
@@ -324,18 +323,18 @@ export const adDetailRejected = (error: Error): AdDetailRejected => ({
   payload: error,
 });
 
-export function advertDetail(advertId: number): AppThunk<Promise<void>> {
+export function advertDetail(advertId: string): AppThunk<Promise<void>> {
   return async function (dispatch) {
     dispatch(adDetailPending()); 
 
     try {
-      const advert = await getAdvert(String(advertId));
+      const advert = await getAdvert(advertId);
       dispatch(adDetailFulfilled(advert)); 
     } catch (error) {
       if (isApiClientError(error)) {
         dispatch(adDetailRejected(error));  
       }
-      throw error;  // Re-lanzamos el error para que sea manejado correctamente
+      throw error;  
     }
   };
 }

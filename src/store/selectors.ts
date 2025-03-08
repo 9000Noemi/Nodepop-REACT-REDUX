@@ -2,11 +2,11 @@ import { RootState } from ".";
 
 export const getIsLogged = (state: RootState) => state.auth;
 
-export const selectAdverts  = (state: RootState) => state.adverts || [] ; //Si no hay, devuelve un array
+export const selectAdverts  = (state: RootState) => state.adverts || []; //Si no hay, devuelve un array
 
 //Selector para adDetail:
-export const selectAdDetail = (advertId?: string) => (state: RootState) => 
-    state.adverts?.find((advert) => advert.id === Number(advertId));
+export const selectAdDetail = (state: RootState) => state.adDetail
 
+export const selectTags = (state: RootState) => state.tags || []
 
 export const getUi = (state: RootState) => state.ui;

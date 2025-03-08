@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Page from '../../components/layout/Page';
 import ConfirmationDialog from '../../components/shared/ConfirmationDialog';
 import { useAppSelector, useAppDispatch  } from '../../store';
-import { selectAdDetail } from '../../store/selectors';
+import { selectAdDetail, selectTags } from '../../store/selectors';
 import { advertDetail, advertsDelete } from '../../store/actions';
 import './AdvertPage.css';
 
@@ -14,17 +14,16 @@ function AdvertPage() {
   const dispatch = useAppDispatch(); //Para Redux
 
   // Accedemos a los detalles del anuncio desde Redux, usamos el selector selectAdDetail
-  const advert = useAppSelector(selectAdDetail(params.advertId)); 
- 
-
+  const advert = useAppSelector(selectAdDetail/*(params.advertId)*/);
+  console.log(advert)
   // Estado para mostrar el mensaje de confirmacion
   const [showConfirmation, setShowConfirmation] = useState(false);
   // Estado para manejar el estado de carga (si es necesario)
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {     
+  useEffect(() => {   
     if (params.advertId) {
-      dispatch(advertDetail(Number(params.advertId)));
+      dispatch(advertDetail(params.advertId));
     }
   }, [dispatch, params.advertId]);
 

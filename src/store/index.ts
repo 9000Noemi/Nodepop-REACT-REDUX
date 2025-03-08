@@ -7,6 +7,7 @@ import * as thunk from "redux-thunk";
 import { Actions } from "./actions";
 import { createBrowserRouter } from "react-router-dom";
 
+//Crear el tipo Router a través del tipo que devuelve la funcion createBrowserRouter
 type Router = ReturnType<typeof createBrowserRouter>;
 
 type ExtraArgument = {

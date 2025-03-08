@@ -20,9 +20,9 @@ const router = createBrowserRouter([{ path: "*", element: <App /> }]);
 const store = configureStore({ auth: !!accessToken }, router);
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  //<StrictMode>
     <Provider store = { store }>
       <RouterProvider router={router} />
     </Provider>
-  </StrictMode>,
+  //</StrictMode>,
 );

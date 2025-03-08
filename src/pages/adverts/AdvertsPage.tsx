@@ -26,7 +26,7 @@ const EmptyList = () => (
 function AdvertsPage() {
 
   // Conectar con el estado de Redux para obtener los anuncios
-  const adverts = useAppSelector(selectAdverts ); 
+  const adverts = useAppSelector(selectAdverts);
   const dispatch = useAppDispatch();
 
   //Estados para filtros de name y all, sell o buy
