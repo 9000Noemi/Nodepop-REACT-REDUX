@@ -89,12 +89,12 @@ type AdvertsCreatedRejected = {
 
 type AdvertsDeletedPending = {
   type: 'adverts/deleted/pending';
-  payload: number; //ID
+  payload: string; //ID
 };
 
 type AdvertsDeletedFulfilled = {
   type: 'adverts/deleted/fulfilled';
-  payload: number; //ID
+  payload: string; //ID
 };
 
 type AdvertsDeletedRejected = {
@@ -276,12 +276,12 @@ export function advertsCreate(advert: FormData, navigate: (path: string)=> void)
 
 //AdvertsDeleted: pending, fulfilled, rejected y thunk
 
-export const advertsDeletedPending = (advertId: number): AdvertsDeletedPending => ({
+export const advertsDeletedPending = (advertId: string): AdvertsDeletedPending => ({
   type: 'adverts/deleted/pending',
   payload: advertId,
 });
 
-export const advertsDeletedFulfilled = (advertId: number): AdvertsDeletedFulfilled => ({
+export const advertsDeletedFulfilled = (advertId: string): AdvertsDeletedFulfilled => ({
   type: 'adverts/deleted/fulfilled',
   payload: advertId,
 });
@@ -291,12 +291,12 @@ export const advertsDeletedRejected = (error: Error): AdvertsDeletedRejected => 
   payload: error,
 });
 
-export function advertsDelete(advertId:number): AppThunk<Promise<void>> {
+export function advertsDelete(advertId:string): AppThunk<Promise<void>> {
   return async function (dispatch) {
     dispatch(advertsDeletedPending(advertId));
     try {
-      const deletedAdvert = await deleteAdvert(String(advertId)); 
-      dispatch(advertsDeletedFulfilled(deletedAdvert.id));
+      const deletedAdvert = await deleteAdvert(advertId); 
+      dispatch(advertsDeletedFulfilled(String(deletedAdvert.id)));
     } catch (error) {
       if (isApiClientError(error)) {
         dispatch(advertsDeletedRejected(error));

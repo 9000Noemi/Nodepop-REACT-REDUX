@@ -10,3 +10,6 @@ export const selectAdDetail = (state: RootState) => state.adDetail
 export const selectTags = (state: RootState) => state.tags || []
 
 export const getUi = (state: RootState) => state.ui;
+
+
+

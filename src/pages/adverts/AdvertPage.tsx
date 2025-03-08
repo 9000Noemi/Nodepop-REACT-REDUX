@@ -33,7 +33,7 @@ function AdvertPage() {
       setLoading(true);
       try {
         // Despachar la acción de eliminación de anuncio para actualizar el estado global
-        dispatch(advertsDelete(Number(params.advertId))); 
+        dispatch(advertsDelete(params.advertId)); 
         navigate('/adverts');
       } catch (error) {
         console.log('Error deleting advert:', error);

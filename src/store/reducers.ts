@@ -53,7 +53,8 @@ export function adverts(
 
     case 'adverts/deleted/fulfilled':
     // Devolver un array vacío si state es null
-      return (state??[]).filter(advert => advert.id !== action.payload);
+      return ( state??[] ).filter(advert => String(advert.id) !== action.payload);
+
     default:
       return state;
   }
