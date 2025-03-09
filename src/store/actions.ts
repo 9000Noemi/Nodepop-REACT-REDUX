@@ -131,7 +131,6 @@ type UiResetError = {
   type: 'ui/reset-error';
 };
 
-
 /*
 2)Creación de Action Creators:Funciones para despachar las acciones
 */
@@ -367,7 +366,6 @@ export function advertDetail(advertId: string): AppThunk<Promise<void>> {
     }
   };
 }
-
 
 export const uiResetError = (): UiResetError => ({
   type: 'ui/reset-error',

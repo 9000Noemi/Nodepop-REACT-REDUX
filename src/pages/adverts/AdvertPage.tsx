@@ -28,7 +28,7 @@ function AdvertPage() {
     if (advert && params.advertId) {
       setLoading(true);
       // Despachar la acción de eliminación de anuncio para actualizar el estado global
-      dispatch(advertsDelete(params.advertId));
+      await dispatch(advertsDelete(params.advertId));
 
       setLoading(false);
       setShowConfirmation(false);

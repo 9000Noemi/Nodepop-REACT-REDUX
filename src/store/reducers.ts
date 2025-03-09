@@ -77,7 +77,7 @@ export function tags(
 
 // Reducer del detalle del anuncio
 export function adDetail(
-  state = defaultState.adDetail, 
+  state = defaultState.adDetail,
   action: Actions,
 ): State['adDetail'] {
   switch (action.type) {

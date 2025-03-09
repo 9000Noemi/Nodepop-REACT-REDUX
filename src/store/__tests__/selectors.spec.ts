@@ -1,7 +1,7 @@
-import { RootState } from "..";
-import { getIsLogged } from "../selectors";
+import { RootState } from '..';
+import { getIsLogged } from '../selectors';
 
-describe("getIsLogged", () => {
+describe('getIsLogged', () => {
   //Estado inicial de state, auth es true
   const state: RootState = {
     auth: true, // Usuario autenticado
@@ -11,17 +11,17 @@ describe("getIsLogged", () => {
     ui: { pending: false, error: null },
   };
 
-  test("should return true if user is logged in", () => {
+  test('should return true if user is logged in', () => {
     // Llamar al selector
-    const result = getIsLogged(state); 
-    expect(result).toBe(true); 
+    const result = getIsLogged(state);
+    expect(result).toBe(true);
   });
 
-  test("should return false if user is not logged in", () => {
+  test('should return false if user is not logged in', () => {
     //Modificar el estado a false
-    state.auth = false; 
+    state.auth = false;
     // Llamar al selector
-    const result = getIsLogged(state); 
-    expect(result).toBe(false); 
+    const result = getIsLogged(state);
+    expect(result).toBe(false);
   });
 });

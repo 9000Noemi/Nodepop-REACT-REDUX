@@ -3,7 +3,7 @@ import Button from '../../components/shared/Button';
 import { NewAdvert } from './types';
 import FormField from '../../components/shared/FormField';
 import Page from '../../components/layout/Page';
-import { useAppDispatch } from '../../store';
+import { useAppDispatch, useAppSelector } from '../../store';
 import { advertsCreate, tagsLoaded } from '../../store/actions';
 import './NewAdvertPage.css';
 
@@ -16,8 +16,8 @@ function NewAdvertPageForm() {
     photo: null,
   });
 
-  //Manejar el estado del array de tags
-  const [tagsArray] = useState<string[] | null>(null);
+  // Obtener las tags del estado global
+  const tagsArray = useAppSelector((state) => state.tags);
 
   const dispatch = useAppDispatch(); //Para Redux
 

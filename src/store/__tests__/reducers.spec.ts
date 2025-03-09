@@ -12,6 +12,4 @@ describe('auth reducer', () => {
     const result = auth(true, { type: 'auth/logout/fulfilled' });
     expect(result).toBe(false);
   });
-
-  
 });

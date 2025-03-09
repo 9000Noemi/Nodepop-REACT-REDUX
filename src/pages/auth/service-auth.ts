@@ -18,6 +18,9 @@ export const login = async (credentials: Credentials, rememberMe: boolean) => {
   if (rememberMe) {
     // Si "Recordar contraseña" está marcado, guardamos el token en el localStorage
     localStorage.setItem('auth', accessToken);
+  } else {
+    // Si no se marca "Recordar", guardamos en Redux Store
+    storage.set('auth', accessToken); // Usamos storage para almacenarlo en Redux también
   }
 
   setAuthorizationHeader(accessToken);
