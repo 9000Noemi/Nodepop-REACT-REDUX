@@ -3,13 +3,13 @@ import { Actions } from './actions';
 
 export type State = {
   auth: boolean;
-  adverts: Advert[]| null
+  adverts: Advert[] | null;
   tags: string[];
-  adDetail: Advert | null
-  ui:{
+  adDetail: Advert | null;
+  ui: {
     pending: boolean;
     error: Error | null;
-  }
+  };
 };
 
 // Estado inicial
@@ -20,8 +20,8 @@ const defaultState: State = {
   adDetail: null,
   ui: {
     pending: false,
-    error:null
-  }
+    error: null,
+  },
 };
 
 // Reducer de autenticación
@@ -47,20 +47,22 @@ export function adverts(
   switch (action.type) {
     case 'adverts/loaded/fulfilled':
       return action.payload;
-      
+
     case 'adverts/created/fulfilled':
-      return [...( state ?? []) , action.payload];
+      return [...(state ?? []), action.payload];
 
     case 'adverts/deleted/fulfilled':
-    // Devolver un array vacío si state es null
-      return ( state??[] ).filter(advert => String(advert.id) !== action.payload);
+      // Devolver un array vacío si state es null
+      return (state ?? []).filter(
+        (advert) => String(advert.id) !== action.payload,
+      );
 
     default:
       return state;
   }
 }
 
-// Reducer de tags 
+// Reducer de tags
 export function tags(
   state = defaultState.tags,
   action: Actions,
@@ -73,30 +75,29 @@ export function tags(
   }
 }
 
-// Reducer del detalle del anuncio               
+// Reducer del detalle del anuncio
 export function adDetail(
-  state = defaultState.adDetail,  // Inicializa con los detalles de un anuncio vacío
+  state = defaultState.adDetail, 
   action: Actions,
-): State['adDetail'] {  // El tipo del estado será el mismo que el de los anuncios
+): State['adDetail'] {
   switch (action.type) {
     case 'ad-detail/fulfilled':
-      return action.payload;  
+      return action.payload;
     default:
       return state;
   }
 }
 
-
-// Reducer de ui  
-export function ui(state = defaultState.ui, action: Actions): State["ui"] {
+// Reducer de ui
+export function ui(state = defaultState.ui, action: Actions): State['ui'] {
   switch (action.type) {
-    case "ui/reset-error":
+    case 'ui/reset-error':
       return { ...state, error: null };
-    case "auth/login/pending":
+    case 'auth/login/pending':
       return { pending: true, error: null };
-    case "auth/login/fulfilled":
+    case 'auth/login/fulfilled':
       return { pending: false, error: null };
-    case "auth/login/rejected":
+    case 'auth/login/rejected':
       return { pending: false, error: action.payload };
     default:
       return state;

@@ -9,9 +9,7 @@ import { getUi } from '../../store/selectors';
 
 import './LoginPage.css';
 
-
 export default function LoginPage() {
-  
   //Estados para controlar los inputs
   const [credentials, setCredentials] = useState({
     email: '',
@@ -46,8 +44,7 @@ export default function LoginPage() {
     event.preventDefault();
 
     // Despachar la acción para manejar el login
-     dispatch(authLogin(credentials,rememberMe));
-
+    dispatch(authLogin(credentials, rememberMe));
   };
 
   const isDisabled = !credentials.email || !credentials.password || pending;
@@ -90,10 +87,10 @@ export default function LoginPage() {
         </Button>
 
         {error && (
-        <div
-          className="loginPage-error"
-          onClick={() => dispatch(uiResetError())}
-        >
+          <div
+            className="loginPage-error"
+            onClick={() => dispatch(uiResetError())}
+          >
             {error.message}
           </div>
         )}
@@ -101,5 +98,3 @@ export default function LoginPage() {
     </div>
   );
 }
-
-

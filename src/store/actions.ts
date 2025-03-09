@@ -1,9 +1,15 @@
-import { isApiClientError } from "../api/client";
-import { login, logout } from "../pages/auth/service-auth";
+import { isApiClientError } from '../api/client';
+import { login, logout } from '../pages/auth/service-auth';
 import { Credentials } from '../pages/auth/types';
 import { Advert } from '../pages/adverts/types';
-import { AppThunk } from ".";
-import { createAdvert, deleteAdvert, getAdvert, getAdvertList, getTags } from "../pages/adverts/service-adverts";
+import { AppThunk } from '.';
+import {
+  createAdvert,
+  deleteAdvert,
+  getAdvert,
+  getAdvertList,
+  getTags,
+} from '../pages/adverts/service-adverts';
 
 /*
 Acciones para manejar el estado global de la aplicacion:
@@ -19,15 +25,15 @@ Acciones para manejar el estado global de la aplicacion:
 //Login: pending, fulfilled y rejected
 
 type AuthLoginPending = {
-  type: "auth/login/pending";
+  type: 'auth/login/pending';
 };
 
 type AuthLoginFulfilled = {
-  type: "auth/login/fulfilled";
+  type: 'auth/login/fulfilled';
 };
 
 type AuthLoginRejected = {
-  type: "auth/login/rejected";
+  type: 'auth/login/rejected';
   payload: Error;
 };
 
@@ -37,14 +43,15 @@ type AuthLogoutFulfilled = {
   type: 'auth/logout/fulfilled';
 };
 
-// Tags Loaded: pending, fulfilled, rejected
+// Tags: pending, fulfilled, rejected
+
 type TagsLoadedPending = {
   type: 'tags/loaded/pending';
 };
 
 type TagsLoadedFulfilled = {
   type: 'tags/loaded/fulfilled';
-  payload: string[]; // Un array de strings con los tags disponibles
+  payload: string[]; // Array de strings con los tags disponibles
 };
 
 type TagsLoadedRejected = {
@@ -61,7 +68,7 @@ type AdvertsLoadedPending = {
 
 type AdvertsLoadedFulfilled = {
   type: 'adverts/loaded/fulfilled';
-  payload: Advert[] ;
+  payload: Advert[];
 };
 
 type AdvertsLoadedRejected = {
@@ -118,12 +125,10 @@ type AdDetailRejected = {
   payload: Error;
 };
 
-
-
 //UI
 
 type UiResetError = {
-  type: "ui/reset-error";
+  type: 'ui/reset-error';
 };
 
 
@@ -134,25 +139,28 @@ type UiResetError = {
 //authLogin: pending, fulfilled, rejected y thunk
 
 export const authLoginPending = (): AuthLoginPending => ({
-  type: "auth/login/pending",
+  type: 'auth/login/pending',
 });
 
 export const authLoginFulfilled = (): AuthLoginFulfilled => ({
-  type: "auth/login/fulfilled",
+  type: 'auth/login/fulfilled',
 });
 
 export const authLoginRejected = (error: Error): AuthLoginRejected => ({
-  type: "auth/login/rejected",
+  type: 'auth/login/rejected',
   payload: error,
 });
 
-export function authLogin(credentials: Credentials, rememberMe: boolean): AppThunk<Promise<void>> {
+export function authLogin(
+  credentials: Credentials,
+  rememberMe: boolean,
+): AppThunk<Promise<void>> {
   return async function (dispatch, _getState, { router }) {
     dispatch(authLoginPending());
     try {
-      await login(credentials, rememberMe); 
+      await login(credentials, rememberMe);
       dispatch(authLoginFulfilled());
-      const to = router.state.location.state?.from ?? "/";
+      const to = router.state.location.state?.from ?? '/';
       router.navigate(to, { replace: true });
     } catch (error) {
       if (isApiClientError(error)) {
@@ -163,22 +171,22 @@ export function authLogin(credentials: Credentials, rememberMe: boolean): AppThu
   };
 }
 
-//Logout
+//Logout: fulfilled y thunk
 
 export const authLogoutFulfilled = (): AuthLogoutFulfilled => ({
   type: 'auth/logout/fulfilled',
 });
 
 export function authLogout(): AppThunk<Promise<void>> {
-  return async function (dispatch, _getState, {router}) {
+  return async function (dispatch, _getState, { router }) {
     try {
-    await logout();
-    dispatch(authLogoutFulfilled());
-    router.navigate("/login");
-  } catch (error){
-    throw error
+      await logout();
+      dispatch(authLogoutFulfilled());
+      router.navigate('/login');
+    } catch (error) {
+      throw error;
     }
-  }
+  };
 }
 
 //Tags: pending, fulfilled, rejected y thunk
@@ -199,29 +207,31 @@ export const tagsLoadedRejected = (error: Error): TagsLoadedRejected => ({
 
 export function tagsLoaded(): AppThunk<Promise<void>> {
   return async function (dispatch) {
-    dispatch(tagsLoadedPending()); 
+    dispatch(tagsLoadedPending());
     try {
       const tags = await getTags();
-      dispatch(tagsLoadedFulfilled(tags)); 
+      dispatch(tagsLoadedFulfilled(tags));
     } catch (error) {
       if (isApiClientError(error)) {
-        dispatch(tagsLoadedRejected(error)); 
-      } 
+        dispatch(tagsLoadedRejected(error));
+      }
       throw error;
     }
   };
 }
 
-
 //AdvertsLoaded:pending, fulfilled, rejected y thunk
 
-export const advertsLoadedPending = (adverts: Advert[]): AdvertsLoadedPending => ({
+export const advertsLoadedPending = (
+  adverts: Advert[],
+): AdvertsLoadedPending => ({
   type: 'adverts/loaded/pending',
-  payload: adverts
- 
+  payload: adverts,
 });
 
-export const advertsLoadedFulfilled = (adverts: Advert[]): AdvertsLoadedFulfilled => ({
+export const advertsLoadedFulfilled = (
+  adverts: Advert[],
+): AdvertsLoadedFulfilled => ({
   type: 'adverts/loaded/fulfilled',
   payload: adverts,
 });
@@ -231,7 +241,6 @@ export const advertsLoadedRejected = (error: Error): AdvertsLoadedRejected => ({
   payload: error,
 });
 
-
 export function advertsLoaded(): AppThunk<Promise<void>> {
   return async function (dispatch, getState) {
     const state = getState();
@@ -239,11 +248,11 @@ export function advertsLoaded(): AppThunk<Promise<void>> {
     if (state.adverts) {
       return;
     }
-     // Si no hay anuncios cargados, proceder a cargarlos
-     try {
-      dispatch(advertsLoadedPending([]));//usar array vacío mientras carga
+    // Si no hay anuncios cargados, proceder a cargarlos
+    try {
+      dispatch(advertsLoadedPending([])); //usar array vacío mientras carga
       const adverts = await getAdvertList();
-      dispatch(advertsLoadedFulfilled(adverts));   
+      dispatch(advertsLoadedFulfilled(adverts));
     } catch (error) {
       if (isApiClientError(error)) {
         dispatch(advertsLoadedRejected(error));
@@ -259,22 +268,25 @@ export const advertsCreatedPending = (): AdvertsCreatedPending => ({
   type: 'adverts/created/pending',
 });
 
-export const advertsCreatedFulfilled = (advert: Advert): AdvertsCreatedFulfilled => ({
+export const advertsCreatedFulfilled = (
+  advert: Advert,
+): AdvertsCreatedFulfilled => ({
   type: 'adverts/created/fulfilled',
   payload: advert,
 });
 
-export const advertsCreatedRejected = (error: Error): AdvertsCreatedRejected => ({
+export const advertsCreatedRejected = (
+  error: Error,
+): AdvertsCreatedRejected => ({
   type: 'adverts/created/rejected',
   payload: error,
 });
 
-
 export function advertsCreate(advert: FormData): AppThunk<Promise<void>> {
-  return async function (dispatch, _getState, {router}) {
+  return async function (dispatch, _getState, { router }) {
     dispatch(advertsCreatedPending());
     try {
-      const newAdvert = await createAdvert(advert); 
+      const newAdvert = await createAdvert(advert);
       dispatch(advertsCreatedFulfilled(newAdvert));
       router.navigate(`/adverts/${newAdvert.id}`);
     } catch (error) {
@@ -288,26 +300,32 @@ export function advertsCreate(advert: FormData): AppThunk<Promise<void>> {
 
 //AdvertsDeleted: pending, fulfilled, rejected y thunk
 
-export const advertsDeletedPending = (advertId: string): AdvertsDeletedPending => ({
+export const advertsDeletedPending = (
+  advertId: string,
+): AdvertsDeletedPending => ({
   type: 'adverts/deleted/pending',
   payload: advertId,
 });
 
-export const advertsDeletedFulfilled = (advertId: string): AdvertsDeletedFulfilled => ({
+export const advertsDeletedFulfilled = (
+  advertId: string,
+): AdvertsDeletedFulfilled => ({
   type: 'adverts/deleted/fulfilled',
   payload: advertId,
 });
 
-export const advertsDeletedRejected = (error: Error): AdvertsDeletedRejected => ({
+export const advertsDeletedRejected = (
+  error: Error,
+): AdvertsDeletedRejected => ({
   type: 'adverts/deleted/rejected',
   payload: error,
 });
 
-export function advertsDelete(advertId:string): AppThunk<Promise<void>> {
-  return async function (dispatch, _getState, {router}) {
+export function advertsDelete(advertId: string): AppThunk<Promise<void>> {
+  return async function (dispatch, _getState, { router }) {
     dispatch(advertsDeletedPending(advertId));
     try {
-      const deletedAdvert = await deleteAdvert(advertId); 
+      const deletedAdvert = await deleteAdvert(advertId);
       dispatch(advertsDeletedFulfilled(String(deletedAdvert.id)));
       router.navigate('/adverts');
     } catch (error) {
@@ -318,7 +336,6 @@ export function advertsDelete(advertId:string): AppThunk<Promise<void>> {
     }
   };
 }
-
 
 //AdDetail:pending, fulfilled, rejected y thunk
 
@@ -338,22 +355,22 @@ export const adDetailRejected = (error: Error): AdDetailRejected => ({
 
 export function advertDetail(advertId: string): AppThunk<Promise<void>> {
   return async function (dispatch) {
-    dispatch(adDetailPending()); 
+    dispatch(adDetailPending());
     try {
       const advert = await getAdvert(advertId);
-      dispatch(adDetailFulfilled(advert)); 
+      dispatch(adDetailFulfilled(advert));
     } catch (error) {
       if (isApiClientError(error)) {
-        dispatch(adDetailRejected(error));  
+        dispatch(adDetailRejected(error));
       }
-      throw error;  
+      throw error;
     }
   };
 }
 
 
 export const uiResetError = (): UiResetError => ({
-  type: "ui/reset-error",
+  type: 'ui/reset-error',
 });
 
 //3)Exportación de los tipos de acciones.
@@ -375,7 +392,7 @@ export type Actions =
   | AdvertsDeletedPending
   | AdvertsDeletedFulfilled
   | AdvertsDeletedRejected
-  | AdDetailPending     
-  | AdDetailFulfilled  
+  | AdDetailPending
+  | AdDetailFulfilled
   | AdDetailRejected
-  | UiResetError
+  | UiResetError;

@@ -2,11 +2,10 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Page from '../../components/layout/Page';
 import ConfirmationDialog from '../../components/shared/ConfirmationDialog';
-import { useAppSelector, useAppDispatch  } from '../../store';
+import { useAppSelector, useAppDispatch } from '../../store';
 import { selectAdDetail } from '../../store/selectors';
 import { advertDetail, advertsDelete } from '../../store/actions';
 import './AdvertPage.css';
-
 
 function AdvertPage() {
   const params = useParams();
@@ -19,19 +18,18 @@ function AdvertPage() {
   // Estado para manejar el estado de carga (si es necesario)
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {   
+  useEffect(() => {
     if (params.advertId) {
       dispatch(advertDetail(params.advertId));
     }
   }, [dispatch, params.advertId]);
 
-
   const handleDelete = async () => {
     if (advert && params.advertId) {
       setLoading(true);
       // Despachar la acción de eliminación de anuncio para actualizar el estado global
-      dispatch(advertsDelete(params.advertId)); 
-      
+      dispatch(advertsDelete(params.advertId));
+
       setLoading(false);
       setShowConfirmation(false);
     }
@@ -77,5 +75,3 @@ function AdvertPage() {
   );
 }
 export default AdvertPage;
-
-

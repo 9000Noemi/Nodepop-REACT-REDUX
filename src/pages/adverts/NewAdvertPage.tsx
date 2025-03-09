@@ -4,7 +4,7 @@ import { NewAdvert } from './types';
 import FormField from '../../components/shared/FormField';
 import Page from '../../components/layout/Page';
 import { useAppDispatch } from '../../store';
-import { advertsCreate, tagsLoaded } from '../../store/actions'
+import { advertsCreate, tagsLoaded } from '../../store/actions';
 import './NewAdvertPage.css';
 
 function NewAdvertPageForm() {
@@ -34,8 +34,6 @@ function NewAdvertPageForm() {
     fetchTags();
   }, [dispatch]);
 
- 
-
   //Gestionar el envío del formulario
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     //Evita que la página se recargue al enviar el formulario.
@@ -50,9 +48,9 @@ function NewAdvertPageForm() {
     if (advert.photo) {
       formData.append('photo', advert.photo);
     }
-    
-      //Redux: Despachar la acción de crear un anuncio a la que le pasamos el anuncio que acabamos de crear
-    dispatch(advertsCreate(formData))
+
+    //Redux: Despachar la acción de crear un anuncio a la que le pasamos el anuncio que acabamos de crear
+    dispatch(advertsCreate(formData));
   };
 
   // Gestionar cambios en los campos del formulario: actualizar el estado con los inputs

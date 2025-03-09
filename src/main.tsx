@@ -9,19 +9,17 @@ import configureStore from './store';
 import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-
-
 const accessToken = storage.get('auth');
 if (accessToken) {
   setAuthorizationHeader(accessToken);
 }
 
-const router = createBrowserRouter([{ path: "*", element: <App /> }]);
+const router = createBrowserRouter([{ path: '*', element: <App /> }]);
 const store = configureStore({ auth: !!accessToken }, router);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Provider store = { store }>
+    <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
   </StrictMode>,

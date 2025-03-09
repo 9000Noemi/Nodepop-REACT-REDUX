@@ -8,7 +8,7 @@ import type { Advert } from './types';
 import './AdvertsPage.css';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { advertsLoaded } from '../../store/actions';
-import { selectAdverts  } from '../../store/selectors';
+import { selectAdverts } from '../../store/selectors';
 
 //Listado de anuncios
 
@@ -23,7 +23,6 @@ const EmptyList = () => (
 );
 
 function AdvertsPage() {
-
   // Conectar con el estado de Redux para obtener los anuncios
   const adverts = useAppSelector(selectAdverts);
   const dispatch = useAppDispatch();
@@ -34,7 +33,7 @@ function AdvertsPage() {
 
   //Cuando el componente AdvertsPage se monta, ejecuta el useEffect
   useEffect(() => {
-      dispatch(advertsLoaded());  // Despachamos los anuncios cargados a Redux
+    dispatch(advertsLoaded()); // Despachamos los anuncios cargados a Redux
   }, [dispatch]);
 
   //Para el filtro por nombre
